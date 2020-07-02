@@ -54,9 +54,8 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto">
-      <HintPath>..\..\..\..\..\Users\jcvelasquez\Desktop\BouncyCastle.Crypto.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\..\WebAsistencia\packages\BouncyCastle.Crypto.dll.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="ClosedXML">
       <HintPath>..\..\SharedLibs\ClosedXML.dll</HintPath>
@@ -68,7 +67,8 @@
       <HintPath>..\..\SharedLibs\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\..\WebAsistencia\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -83,6 +83,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -142,6 +143,7 @@
     <Compile Include="MED\RespuestaGetAgentesEvaluablesPor.cs" />
     <Compile Include="MED\UnidadDeEvaluacion.cs" />
     <Compile Include="MED\VerificacionCodigoGdeDocumento.cs" />
+    <Compile Include="MOBI\MoBi_Vehiculo.cs" />
     <Compile Include="Organigrama\GraficoBienes.cs" />
     <Compile Include="MED\AgenteEvaluacionDesempenio.cs" />
     <Compile Include="MED\DescripcionAreaEvaluacion.cs" />
@@ -154,6 +156,7 @@
     <Compile Include="pdfs\EvaluacionDeDesempenioToPdfConverter.cs" />
     <Compile Include="pdfs\GenDDJJCOVID19Converter.cs" />
     <Compile Include="pdfs\GenReciboEmpleadoToPdfConverter.cs" />
+    <Compile Include="pdfs\GenTarjetonToPdfConverter.cs" />
     <Compile Include="pdfs\GenReciboToPdfConverter.cs" />
     <Compile Include="pdfs\ModeloToPdfConverter.cs" />
     <Compile Include="Portal\Consulta.cs" />
@@ -166,6 +169,12 @@
     <Compile Include="Portal\Legajo.cs" />
     <Compile Include="Portal\Respuesta.cs" />
     <Compile Include="Postular\ReporteDePostulaciones.cs" />
+    <Compile Include="PotenciarTrabajo\PT_Justificacion.cs" />
+    <Compile Include="PotenciarTrabajo\PT_Participacion.cs" />
+    <Compile Include="PotenciarTrabajo\PT_Participacion_Dato.cs" />
+    <Compile Include="PotenciarTrabajo\PT_Periodo.cs" />
+    <Compile Include="PotenciarTrabajo\PT_Personas.cs" />
+    <Compile Include="PotenciarTrabajo\PT_Resumen_Inicial.cs" />
     <Compile Include="PRGSOC\Entidad.cs" />
     <Compile Include="Recibos\Cabecera.cs" />
     <Compile Include="Recibos\Detalle.cs" />
@@ -179,6 +188,7 @@
     <Compile Include="Repositorios\RepositorioDeEntidades.cs" />
     <Compile Include="Repositorios\RepositorioDeCovid19.cs" />
     <Compile Include="Repositorios\RepositorioDeArchivosMigrados.cs" />
+    <Compile Include="Repositorios\RepositorioPotenciarTrabajo.cs" />
     <Compile Include="Repositorios\RepositorioVerificador.cs" />
     <Compile Include="Repositorios\RepositorioDeArchivosFirmados.cs" />
     <Compile Include="Repositorios\RepositorioDeTipoDeLiquidacion.cs" />
@@ -205,7 +215,6 @@
     <Compile Include="MoBi\MoBi_Bien.cs" />
     <Compile Include="MoBi\MoBi_Evento.cs" />
     <Compile Include="MoBi\MoBi_TipoBien.cs" />
-    <Compile Include="MoBi\MoBi_Vehiculo.cs" />
     <Compile Include="MoBi\RepositorioMoBi.cs" />
     <Compile Include="Modi\Impersonator.cs" />
     <Compile Include="Modi\NetworkConnection.cs" />
@@ -590,7 +599,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
