@@ -310,20 +310,18 @@
     float: right;
 }
 
-.selector_areas
-{
+.selector_areas, .selector_entidades {
     margin: 2px;
-    position:absolute;
-    bottom:5px;
+    position: absolute;
+    bottom: 5px;
     left: 5px;
     right: 5px;
     /* margin-top: 0px; */
 }
 
-.selector_areas #buscador
-{
-    width:535px !important;
-}
+    .selector_areas #buscador, .selector_entidades #buscadorEntidades {
+        width: 535px !important;
+    }
 
 #usuario_no_verificado
 {
