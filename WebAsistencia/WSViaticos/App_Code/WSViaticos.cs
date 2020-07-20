@@ -42,6 +42,7 @@ using System.Transactions;
 using System.Text;
 using General.PotenciarTrabajo;
 
+
 [WebService(Namespace = "http://wsviaticos.gov.ar/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
@@ -4869,7 +4870,151 @@ public class WSViaticos : System.Web.Services.WebService
         return respuesta;
     }
 
+    [WebMethod]
+    public string MOBI_GET_EventosxTipoBienxClaveAtributoBienxValor(int Id_ClaveAtributoBien, string valor, int Id_TipoBien, int tipoConsulta)
+    {
+        RepositorioMoBi rMoBi = new RepositorioMoBi(Conexion());
+        return rMoBi.MOBI_GET_EventosxTipoBienxClaveAtributoBienxValor(Id_ClaveAtributoBien, valor, Id_TipoBien, tipoConsulta);
+    }
 
+    [WebMethod]
+    public string AsociarTarjeton(string patente,string observacion,string vigencia, string codHolograma, Usuario usuario)
+    {
+         
+        try
+        {
+            //"0.ingreso_a_bienes"  es el viejo modulo
+            if (!Autorizador().ElUsuarioTienePermisosPara(usuario.Id, "MOBI_Alta_Bien")) throw (new Exception("El usuario no tiene permisos para el modulo de bienes 2"));
+
+            var repo = new RepositorioTarjetones(Conexion());
+            var repo2 = new RepositorioDeVehiculos(Conexion());
+            byte[] bytes;
+            byte[] bytes2;
+            String csv;
+            String codigoTarjeton;
+            int idTarjeton;
+            Vehiculo vehiculo;
+            CSVUtil csvUtil = new CSVUtil();
+            String nombrePDF="";
+
+            //obtengo el idVehiculo
+            int idBienVehiculo = repo2.ObtenerIdVehiculoxDominio(patente);
+
+            //csv = csvUtil.generarCodigoCSV(bytes2, CSVUtil.SAF_MDS, id_recibo, CSVUtil.TIPO_RECIBO_DIGITAL);
+            codigoTarjeton = csvUtil.GenerarCodigo();
+
+            //Datos a llenar del tarjeton;  vehiculo: dominio,marca,modelo,motor,chasis     tarjeton: vigencia  codigowebtarjeton               
+            vehiculo = repo2.ObtenerDatosVehiculoPorID(idBienVehiculo);
+
+            var modelo_para_pdf = new List<object>() { vehiculo, codigoTarjeton, vigencia};
+            var converter = new GenTarjetonToPdfConverter();
+            var mapa_para_pdf = converter.CrearMapa(modelo_para_pdf);
+            var creador_pdf = new CreadorDePdfs();
+            var contenidoQR = "";
+            /*ubicacion pagina, tamaños y escalas de las imagenes de QR*/
+            List<int> listaPaginaImagen = new List<int>() { 1,2,2 };
+            List<int> listaTamEscalasImagen = new List<int>() { 60, 136, 244 };/*320los tamaños de los qr el ancho y alto son iguales*/
+            /*los valores del eje x van desde la izquierda hacia la derecha y del eje y desde abajo hacia arriba*/
+            List<float> listaPosicionesX = new List<float>() { 745, 54, 560 };
+            List<float> listaPosicionesY = new List<float>() { 65, 335, 300 };
+
+            //codeQRImage.ScaleAbsolute(75, 75);
+            //codeQRImage.SetAbsolutePosition(420, 115);
+            //"https://rrhh.desarrollosocial.gob.ar/verificador/csv.aspx?c=" + csv
+
+            contenidoQR = mapa_para_pdf.Values.ElementAt(6); //obtengo el septimo elemento osea el valor del key:texto7
+            contenidoQR = contenidoQR+" - Verificar Validez: "+"https://rrhh.desarrollosocial.gob.ar/Vehiculos/DetalleVehiculo.aspx?"+ codigoTarjeton;
+
+            //el nombre del pdf generado va a ser el idRecibo
+            nombrePDF = "Tarjeton " + patente;
+            bytes = creador_pdf.FillPDF(TemplatePath("tarjeton.pdf"), nombrePDF, mapa_para_pdf);
+            bytes2 = creador_pdf.AgregarQRsAPDF(bytes, contenidoQR, listaPaginaImagen, listaTamEscalasImagen, listaPosicionesX, listaPosicionesY);
+
+            //hasta aqui el pdf esta rellenado         
+
+            //genero los registros de asociacion necesarios para el evento
+            idTarjeton = repo.AsociarTarjeton(idBienVehiculo, patente, observacion, vigencia, codHolograma, codigoTarjeton, usuario.Id);
+            
+            //obtengo al pdf y lo lleno
+
+            
+            return JsonConvert.SerializeObject(new
+            {
+                DioError = false,
+                Respuesta = Convert.ToBase64String(bytes2),
+                nombrePDF = nombrePDF
+            });
+
+        }
+        catch (Exception e)
+        {           //de esta forma al devolver siempre un valor valido NUNCA se va a entrar al .onerror de las llamadas desde el codigo java script de la web     
+            return JsonConvert.SerializeObject(new
+            {
+                DioError = true,
+                MensajeDeErrorAmigable = "Se produjo un error al asociar el tarjeton",
+                error = e
+            });
+        }
+
+       
+
+    }
+
+    [WebMethod]
+    public string Mobi_AltaVehiculo(int idTipoBien, string dominio, string segmento, string marca, string modelo, string nummotor, string numchasis, string anio, string[] dataForm, Usuario usuario)
+    {
+        //JObject jObject = JObject.FromObject(dataForm);
+        //dynamic data = JsonConvert.DeserializeObject(dataForm);
+        //object data2 = JsonConvert.DeserializeObject(dataForm);
+
+        //RepositorioMoBi rMoBi = new RepositorioMoBi(Conexion());
+        //return rMoBi.GetTipoDeBienes();
+
+        //
+        RepositorioMoBi rMoBi = new RepositorioMoBi(Conexion());
+        var repo = new RepositorioDeVehiculos(Conexion());
+        int id_Bien;
+        try {
+            //verifico si ese dominio ya esta dado de alta
+            id_Bien = repo.ObtenerIdVehiculoxDominio(dominio);
+            if (id_Bien == -1 ){
+                id_Bien = repo.AltaVehiculo(dominio, segmento, marca, modelo, nummotor, numchasis, anio, usuario.Id);
+                //subo las imagenes y las relaciono al bien
+                foreach (string i in dataForm)
+                {
+                    int id_imagen = this.SubirImagen(i);
+                    rMoBi.AsignarImagenABien(id_Bien, id_imagen);
+                }
+
+                return JsonConvert.SerializeObject(new
+                {
+                    DioError = false/*,
+               *Respuesta = Convert.ToBase64String(bytes2),
+                nombrePDF = nombrePDF*/
+                });
+            }
+            else
+            {
+                return JsonConvert.SerializeObject(new
+                {
+                    DioError = true,
+                    MensajeDeErrorAmigable = "El dominio ya existe"
+                });
+
+            }
+            
+        }
+        catch (Exception e)
+        {
+            return JsonConvert.SerializeObject(new
+            {
+                DioError = true,
+                MensajeDeErrorAmigable = "Se produjo un error en la incorporacion del vehiculo",
+                error = e
+            });
+        }
+        
+    }
     #endregion
 
 
