@@ -7444,7 +7444,14 @@ public class WSViaticos : System.Web.Services.WebService
         RepositorioPT.PT_Upd_Justificacion(id_registro_justif, anio_hasta, mes_hasta, semana_hasta, justificacion, id_entidad, usuario);
     }
 
+    [WebMethod]
+    public List<PT_Informe> PT_Get_Estado_Informes_Participacion_Por_Periodo(Usuario usuario)
+    {
+        var RepositorioPT = new RepositorioPotenciarTrabajo();
 
+        return RepositorioPT.PT_Get_Estado_Informes_Participacion_Por_Periodo(usuario);
+    }
+    
 
 
     /// -------------------- Potenciar Trabajo -------------------------------------------------

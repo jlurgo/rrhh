@@ -281,7 +281,39 @@ namespace General.Repositorios
             return lista;
         }
 
-       
-        
+
+        public List<PT_Informe> PT_Get_Estado_Informes_Participacion_Por_Periodo(Usuario usuario)
+        {
+            SqlDataReader dr;
+            ConexionDB cn = new ConexionDB("dbo.PRGSOC_GET_Estado_Informes_Participacion_Por_Periodo");
+            cn.AsignarParametro("@Id_usuario", usuario.Id);
+
+            dr = cn.EjecutarConsulta();
+
+            PT_Informe res;
+            List<PT_Informe> lista = new List<PT_Informe>();
+
+            while (dr.Read())
+            {
+                res = new PT_Informe();
+                res.Anio = dr.GetInt32(dr.GetOrdinal("anio"));
+                res.Mes = dr.GetInt32(dr.GetOrdinal("Mes"));
+                res.Ent_SinCarga = dr.GetInt32(dr.GetOrdinal("Ent_SinCarga"));
+                res.Ent_EnProceso = dr.GetInt32(dr.GetOrdinal("Ent_EnProceso"));
+                res.Ent_ConInforme = dr.GetInt32(dr.GetOrdinal("Ent_ConInforme"));
+                res.Partic_SinCarga = dr.GetInt32(dr.GetOrdinal("Partic_SinCarga"));
+                res.Partic_EnProceso = dr.GetInt32(dr.GetOrdinal("Partic_EnProceso"));
+                res.Partic_ConInforme = dr.GetInt32(dr.GetOrdinal("Partic_ConInforme"));
+
+                      
+                lista.Add(res);
+            }
+
+            cn.Desconestar();
+            return lista;
+        }
+
+
+
     }
 }

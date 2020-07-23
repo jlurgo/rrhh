@@ -10170,12 +10170,6 @@
   <wsdl:message name="GetAsistenciasDelAlumnoSoapOut">
     <wsdl:part name="parameters" element="tns:GetAsistenciasDelAlumnoResponse" />
   </wsdl:message>
-  <wsdl:message name="GetAsistenciasDelAlumnoSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAsistenciasDelAlumno" />
-  </wsdl:message>
-  <wsdl:message name="GetAsistenciasDelAlumnoSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAsistenciasDelAlumnoResponse" />
-  </wsdl:message>
   <wsdl:message name="GetEvaluacionesDeAlumnoSoapIn">
     <wsdl:part name="parameters" element="tns:GetEvaluacionesDeAlumno" />
   </wsdl:message>
@@ -12642,10 +12636,6 @@
     <wsdl:operation name="GetFormularioDeEvaluacion">
       <wsdl:input message="tns:GetFormularioDeEvaluacionSoapIn" />
       <wsdl:output message="tns:GetFormularioDeEvaluacionSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAsistenciasDelAlumno">
-      <wsdl:input message="tns:GetAsistenciasDelAlumnoSoapIn" />
-      <wsdl:output message="tns:GetAsistenciasDelAlumnoSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAsistenciasDelAlumno">
       <wsdl:input message="tns:GetAsistenciasDelAlumnoSoapIn" />
@@ -15146,15 +15136,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetFormularioDeEvaluacion">
       <soap:operation soapAction="http://wsviaticos.gov.ar/GetFormularioDeEvaluacion" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAsistenciasDelAlumno">
-      <soap:operation soapAction="http://wsviaticos.gov.ar/GetAsistenciasDelAlumno" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -19271,15 +19252,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetFormularioDeEvaluacion">
       <soap12:operation soapAction="http://wsviaticos.gov.ar/GetFormularioDeEvaluacion" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAsistenciasDelAlumno">
-      <soap12:operation soapAction="http://wsviaticos.gov.ar/GetAsistenciasDelAlumno" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
