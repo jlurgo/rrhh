@@ -7451,6 +7451,14 @@ public class WSViaticos : System.Web.Services.WebService
 
         return RepositorioPT.PT_Get_Estado_Informes_Participacion_Por_Periodo(usuario);
     }
+
+    [WebMethod]
+    public List<PT_Informe> PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad(int anio, int mes, Usuario usuario)
+    {
+        var RepositorioPT = new RepositorioPotenciarTrabajo();
+
+        return RepositorioPT.PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad(anio, mes, usuario);
+    }
     
 
 

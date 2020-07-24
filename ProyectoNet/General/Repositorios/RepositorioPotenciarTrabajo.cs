@@ -296,8 +296,9 @@ namespace General.Repositorios
             while (dr.Read())
             {
                 res = new PT_Informe();
-                res.Anio = dr.GetInt32(dr.GetOrdinal("anio"));
-                res.Mes = dr.GetInt32(dr.GetOrdinal("Mes"));
+                res.Entidad = new PT_Entidad();
+                res.Entidad.Anio = dr.GetInt32(dr.GetOrdinal("anio"));
+                res.Entidad.Mes = dr.GetInt32(dr.GetOrdinal("Mes"));
                 res.Ent_SinCarga = dr.GetInt32(dr.GetOrdinal("Ent_SinCarga"));
                 res.Ent_EnProceso = dr.GetInt32(dr.GetOrdinal("Ent_EnProceso"));
                 res.Ent_ConInforme = dr.GetInt32(dr.GetOrdinal("Ent_ConInforme"));
@@ -313,6 +314,41 @@ namespace General.Repositorios
             return lista;
         }
 
+
+        public List<PT_Informe> PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad(int anio, int mes, Usuario usuario)
+        {
+            SqlDataReader dr;
+            ConexionDB cn = new ConexionDB("dbo.PRGSOC_GET_Estado_Informes_Participacion_Por_PeriodoyEntidad");            
+            cn.AsignarParametro("@Id_usuario", usuario.Id);
+            cn.AsignarParametro("@mes", mes);
+            cn.AsignarParametro("@anio", anio);
+
+            dr = cn.EjecutarConsulta();
+
+            PT_Informe res;
+            List<PT_Informe> lista = new List<PT_Informe>();
+
+            while (dr.Read())
+            {
+                res = new PT_Informe();
+                res.Entidad = new PT_Entidad();
+                res.Entidad.Id_Entidad = dr.GetInt32(dr.GetOrdinal("Id_Entidad_Tarea"));
+                res.Entidad.Nombre_Entidad = dr.GetString(dr.GetOrdinal("Nombre_Entidad"));
+                res.Entidad.Anio = dr.GetInt32(dr.GetOrdinal("anio"));
+                res.Entidad.Mes = dr.GetInt32(dr.GetOrdinal("Mes"));                
+                res.Cant_Personas = dr.GetInt32(dr.GetOrdinal("Personas"));
+                res.Entidad.Estado = dr.GetString(dr.GetOrdinal("Estado"));
+                if (!dr.IsDBNull(dr.GetOrdinal("Id_Informe")))
+                {
+                    res.Entidad.Id_Informe = dr.GetInt32(dr.GetOrdinal("Id_Informe"));
+                };
+                
+                lista.Add(res);
+            }
+
+            cn.Desconestar();
+            return lista;
+        }
 
 
     }
