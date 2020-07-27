@@ -332,6 +332,7 @@ namespace General.Repositorios
             {
                 res = new PT_Informe();
                 res.Entidad = new PT_Entidad();
+                res.Entidad.Id_Cabecera = dr.GetInt32(dr.GetOrdinal("Id_Registro_Cabecera"));
                 res.Entidad.Id_Entidad = dr.GetInt32(dr.GetOrdinal("Id_Entidad_Tarea"));
                 res.Entidad.Nombre_Entidad = dr.GetString(dr.GetOrdinal("Nombre_Entidad"));
                 res.Entidad.Anio = dr.GetInt32(dr.GetOrdinal("anio"));
@@ -350,6 +351,44 @@ namespace General.Repositorios
             return lista;
         }
 
+        public bool PT_Upd_Generar_Informe_Participacion(List<int> listaCabeceras, Usuario usuario)
+        {
+            ConexionDB cn = new ConexionDB("dbo.PRGSOC_GET_Max_Numero_Informe_Participacion");
+            
+            //INICIO TRANSACCION
+            cn.BeginTransaction();
 
+            int id_informe_nuevo = 0;
+            try
+            {
+                id_informe_nuevo = (int)cn.EjecutarEscalar();
+
+                if (id_informe_nuevo > 0)
+                {                     
+                    foreach (var unaCabecera in listaCabeceras)
+                    {                       
+                        cn.CrearComandoConTransaccionIniciada("dbo.PRGSOC_UPD_Generar_Informes_Participacion");
+                        cn.AsignarParametro("@Id_Cabecera", unaCabecera);
+                        cn.AsignarParametro("@Id_Informe", id_informe_nuevo);
+                        cn.AsignarParametro("@Id_Usuario", usuario.Id);
+                        
+                        cn.EjecutarSinResultado();
+                 
+                    }                    
+                }
+
+            }
+            catch (Exception e)
+            {
+                cn.RollbackTransaction();
+                throw;
+            }
+
+            cn.CommitTransaction();
+            cn.Desconestar();
+
+            return true;
+
+        }
     }
 }

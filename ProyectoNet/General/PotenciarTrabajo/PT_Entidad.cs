@@ -7,6 +7,7 @@ namespace General.PotenciarTrabajo
 {
     public class PT_Entidad
     {
+        public int Id_Cabecera { get; set; }
         public int Id_Entidad { get; set; }
         public string Nombre_Entidad { get; set; }
         public int Mes { get; set; }

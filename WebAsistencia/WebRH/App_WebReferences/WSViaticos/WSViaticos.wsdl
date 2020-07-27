@@ -1289,6 +1289,84 @@
       <s:element name="PT_Upd_JustificacionResponse">
         <s:complexType />
       </s:element>
+      <s:element name="PT_Get_Estado_Informes_Participacion_Por_Periodo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="tns:Usuario" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Get_Estado_Informes_Participacion_Por_PeriodoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PT_Get_Estado_Informes_Participacion_Por_PeriodoResult" type="tns:ArrayOfPT_Informe" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfPT_Informe">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PT_Informe" nillable="true" type="tns:PT_Informe" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PT_Informe">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Entidad" type="tns:PT_Entidad" />
+          <s:element minOccurs="1" maxOccurs="1" name="Ent_SinCarga" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Ent_EnProceso" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Ent_ConInforme" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Partic_SinCarga" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Partic_EnProceso" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Partic_ConInforme" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Cant_Personas" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PT_Entidad">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id_Cabecera" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id_Entidad" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Nombre_Entidad" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Mes" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Anio" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id_Informe" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Estado" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="anio" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="mes" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="tns:Usuario" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidadResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidadResult" type="tns:ArrayOfPT_Informe" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Upd_Generar_Informe_Participacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="listaCabeceras" type="tns:ArrayOfInt" />
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="tns:Usuario" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PT_Upd_Generar_Informe_ParticipacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PT_Upd_Generar_Informe_ParticipacionResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GuardarDDJJCOVID19">
         <s:complexType>
           <s:sequence>
@@ -1717,11 +1795,6 @@
           <s:element minOccurs="0" maxOccurs="1" name="Nombre" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="imagenes" type="tns:ArrayOfInt" />
           <s:element minOccurs="0" maxOccurs="1" name="Conductor" type="tns:Persona" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ArrayOfInt">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
         </s:sequence>
       </s:complexType>
       <s:element name="ObtenerVehiculoPorID">
@@ -9648,6 +9721,24 @@
   <wsdl:message name="PT_Upd_JustificacionSoapOut">
     <wsdl:part name="parameters" element="tns:PT_Upd_JustificacionResponse" />
   </wsdl:message>
+  <wsdl:message name="PT_Get_Estado_Informes_Participacion_Por_PeriodoSoapIn">
+    <wsdl:part name="parameters" element="tns:PT_Get_Estado_Informes_Participacion_Por_Periodo" />
+  </wsdl:message>
+  <wsdl:message name="PT_Get_Estado_Informes_Participacion_Por_PeriodoSoapOut">
+    <wsdl:part name="parameters" element="tns:PT_Get_Estado_Informes_Participacion_Por_PeriodoResponse" />
+  </wsdl:message>
+  <wsdl:message name="PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidadSoapIn">
+    <wsdl:part name="parameters" element="tns:PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad" />
+  </wsdl:message>
+  <wsdl:message name="PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidadSoapOut">
+    <wsdl:part name="parameters" element="tns:PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidadResponse" />
+  </wsdl:message>
+  <wsdl:message name="PT_Upd_Generar_Informe_ParticipacionSoapIn">
+    <wsdl:part name="parameters" element="tns:PT_Upd_Generar_Informe_Participacion" />
+  </wsdl:message>
+  <wsdl:message name="PT_Upd_Generar_Informe_ParticipacionSoapOut">
+    <wsdl:part name="parameters" element="tns:PT_Upd_Generar_Informe_ParticipacionResponse" />
+  </wsdl:message>
   <wsdl:message name="GuardarDDJJCOVID19SoapIn">
     <wsdl:part name="parameters" element="tns:GuardarDDJJCOVID19" />
   </wsdl:message>
@@ -12293,6 +12384,18 @@
       <wsdl:input message="tns:PT_Upd_JustificacionSoapIn" />
       <wsdl:output message="tns:PT_Upd_JustificacionSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="PT_Get_Estado_Informes_Participacion_Por_Periodo">
+      <wsdl:input message="tns:PT_Get_Estado_Informes_Participacion_Por_PeriodoSoapIn" />
+      <wsdl:output message="tns:PT_Get_Estado_Informes_Participacion_Por_PeriodoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad">
+      <wsdl:input message="tns:PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidadSoapIn" />
+      <wsdl:output message="tns:PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidadSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PT_Upd_Generar_Informe_Participacion">
+      <wsdl:input message="tns:PT_Upd_Generar_Informe_ParticipacionSoapIn" />
+      <wsdl:output message="tns:PT_Upd_Generar_Informe_ParticipacionSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GuardarDDJJCOVID19">
       <wsdl:input message="tns:GuardarDDJJCOVID19SoapIn" />
       <wsdl:output message="tns:GuardarDDJJCOVID19SoapOut" />
@@ -14362,6 +14465,33 @@
     </wsdl:operation>
     <wsdl:operation name="PT_Upd_Justificacion">
       <soap:operation soapAction="http://wsviaticos.gov.ar/PT_Upd_Justificacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Get_Estado_Informes_Participacion_Por_Periodo">
+      <soap:operation soapAction="http://wsviaticos.gov.ar/PT_Get_Estado_Informes_Participacion_Por_Periodo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad">
+      <soap:operation soapAction="http://wsviaticos.gov.ar/PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Upd_Generar_Informe_Participacion">
+      <soap:operation soapAction="http://wsviaticos.gov.ar/PT_Upd_Generar_Informe_Participacion" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -18478,6 +18608,33 @@
     </wsdl:operation>
     <wsdl:operation name="PT_Upd_Justificacion">
       <soap12:operation soapAction="http://wsviaticos.gov.ar/PT_Upd_Justificacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Get_Estado_Informes_Participacion_Por_Periodo">
+      <soap12:operation soapAction="http://wsviaticos.gov.ar/PT_Get_Estado_Informes_Participacion_Por_Periodo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad">
+      <soap12:operation soapAction="http://wsviaticos.gov.ar/PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Upd_Generar_Informe_Participacion">
+      <soap12:operation soapAction="http://wsviaticos.gov.ar/PT_Upd_Generar_Informe_Participacion" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

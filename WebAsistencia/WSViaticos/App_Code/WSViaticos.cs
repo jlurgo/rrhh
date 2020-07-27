@@ -7444,6 +7444,7 @@ public class WSViaticos : System.Web.Services.WebService
         RepositorioPT.PT_Upd_Justificacion(id_registro_justif, anio_hasta, mes_hasta, semana_hasta, justificacion, id_entidad, usuario);
     }
 
+
     [WebMethod]
     public List<PT_Informe> PT_Get_Estado_Informes_Participacion_Por_Periodo(Usuario usuario)
     {
@@ -7452,6 +7453,7 @@ public class WSViaticos : System.Web.Services.WebService
         return RepositorioPT.PT_Get_Estado_Informes_Participacion_Por_Periodo(usuario);
     }
 
+
     [WebMethod]
     public List<PT_Informe> PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad(int anio, int mes, Usuario usuario)
     {
@@ -7459,7 +7461,17 @@ public class WSViaticos : System.Web.Services.WebService
 
         return RepositorioPT.PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad(anio, mes, usuario);
     }
-    
+
+
+    [WebMethod]
+    public bool PT_Upd_Generar_Informe_Participacion(List<int> listaCabeceras, Usuario usuario)
+    {
+        var RepositorioPT = new RepositorioPotenciarTrabajo();
+
+        return RepositorioPT.PT_Upd_Generar_Informe_Participacion(listaCabeceras, usuario);
+    }
+
+
 
 
     /// -------------------- Potenciar Trabajo -------------------------------------------------
