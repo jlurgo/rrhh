@@ -23,7 +23,7 @@
                       </div>
                     </div>
                     <img id="pt_logo_seccion"
-                      src="../MenuPrincipal/Administración_de_Areas.png"/>
+                      src="../MenuPrincipal/Potenciar_Trabajo.png"/>
                     <div id="pt_controles_barra_izq">
                       PARTICIPACION
                       <div id="pt_boton_carga_participacion">
