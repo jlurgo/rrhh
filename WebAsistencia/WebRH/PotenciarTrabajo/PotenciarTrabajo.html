@@ -3,9 +3,9 @@
 <html  style="width:100%; height:100%;">
 <head runat="server">
     <title>Potenciar Trabajo</title>
-    <link rel="stylesheet" type="text/css" href="PotenciarTrabajo.css" />
     <link href="../Scripts/vex-2.1.1/css/vex.css" rel="stylesheet">
     <link href="../Scripts/vex-2.1.1/css/vex-theme-os.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="PotenciarTrabajo.css" />
 
 
     <link rel="stylesheet" href="../Scripts/bootstrap/css/bootstrap.css" type="text/css"/>
@@ -57,13 +57,13 @@
                       </div>
                     </div>
                     <img id="pt_logo_seccion"
-                      src="../MenuPrincipal/Administración_de_Areas.png"/>
+                      src="../MenuPrincipal/Potenciar_Trabajo.png"/>
                     <div id="pt_controles_barra_izq">
                       PARTICIPACION
                       <div id="pt_boton_carga_participacion">
                         - Carga Participación
                       </div>
-                      <div id="">
+                      <div id="pt_boton_informes_mensuales">
                         - Informes Mensuales
                       </div>
                       <div id="">
@@ -113,6 +113,24 @@
                     <div id="pt_titulo_seccion">
                       Registro de Participacion en Actividades del Grupo de Trabajo
                     </div>
+                    <div id="pt_encabezados_semanal">
+                      <div id="pt_encabezado_grupo_de_trabajo">
+                        <div>
+                            Grupo de Trabajo
+                        </div>
+                        <div id="pt_grupo_de_trabajo">
+                          xxxxxxxxxxxxxxxxxxxxxxxx
+                        </div>
+                      </div>
+                      <div id="pt_encabezado_periodo">
+                        <div>
+                            Mes
+                        </div>
+                        <div id="pt_periodo">
+                            Abril 9999
+                        </div>
+                      </div>
+                    </div>
                     <div class="pt_nota">
                       Nota: Por defecto, todas las personas presentan un cumplimiento del 100%
                     </div>
@@ -138,24 +156,92 @@
                   </div>
                   <div id="pt_controles_inferiores"></div>
                 </div>
+
+                <div id="pt_seccion_informes_mensuales" class="pt_seccion">
+
+                  <div id='pt_estados_mensuales'>
+                    <div id="pt_titulo_seccion">
+                      Estados Mensuales
+                    </div>
+                    <!-- <div id="pt_encabezados">
+                      <div id="pt_unidad_gestion">
+                        Unidad de Gestión: XXXXXXXXXXXXX XXXXX XXXXXXXXX
+                      </div>
+                    </div> -->
+                    <div id="pt_contenedor_tabla_informes_mensuales"
+                      class="pt_contenedor_tabla">
+                      <table id="pt_tabla_informes_mensuales" class="pt_tabla">
+                        <tr id="pt_titulos_tabla_informes_mensuales" class="pt_fila_titulo_tabla" >
+                          <th  colspan="2" class="empty_cell"></th>
+                          <th  colspan="3"> Grupo de Trabajo </th>
+                          <th  colspan="3"> Personas </th>
+                        </tr>
+
+                        <tr id="pt_titulos2_tabla_informes_mensuales" class="pt_fila_titulo_tabla" >
+                          <th > Año </th>
+                          <th > Mes </th>
+                          <th > Sin Carga </th>
+                          <th > En Proceso </th>
+                          <th > Con Informe </th>
+                          <th > Sin Carga </th>
+                          <th > En Proceso </th>
+                          <th > Con Informe </th>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                  <div id="pt_detalle_mensual">
+                    <div id="pt_titulo_seccion">
+                      Detalle Mensual
+                    </div>
+
+                    <div id="pt_contenedor_tabla_informes_participacion_detalle_mensual" class="pt_contenedor_tabla">
+                      <table id="pt_tabla_informes_participacion_detalle_mensual" class="pt_tabla">
+                        <tr id="pt_titulos_tabla_informes_participacion_detalle_mensual" class="pt_fila_titulo_tabla" >
+                          <!-- <th > Entidad </th> -->
+                          <th > Grupo de Trabajo </th>
+                          <th > Personas </th>
+                          <th > Estado </th>
+                          <!-- <th > Incluir en Informe </th> -->
+                          <th > N° de Informe </th>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="pt_controles_inferiores"></div>
+                    <div class="pt_nota_pie_table">
+                      1, FILAS “Sin carga”= en color ROJO y guiones en las dos últimas columnas (como
+                      “no corresponde dato”)
+                      2. FILAS “En proceso” = en color AMARILLO, con una casilla para chequear en la
+                      columna “Incluir en Informe” así el informe se va a generar UNICAMENTE para los
+                      grupos marcados. Y guiones en la última columna (como “no corresponde dato”)
+                      3. FILAS “Con Informe” = todo sin color de fondo, con un ícono en la ultima
+                      columna al lado del número de informe, que permita bajar el PDF.
+                    </div>
+                  </div>
+                </div>
+
+
             </div>
           <div id="pt_plantillas">
             <div class="pt_justificacion">
               <div>
-                <label> Motivo: </label>
+                <label> Tipo: </label>
                 <select id="pt_justificacion_cmb_motivo">
                 </select>
               </div>
+
               <div class="pt_justificacion_semana_desde_hasta">
+
                 <div>
-                  <label> Semana desde: </label>
+                  <label> Desde: </label>
                   <label id="pt_justificacion_semana_desde"> </label>
                 </div>
+
                 <div>
-                <label> Semana hasta: </label>
-                  <select id="pt_justificacion_cmb_semana_hasta">
-                  </select>
+                  <label> Hasta: </label>
+                  <select id="pt_justificacion_cmb_semana_hasta"></select>
                 </div>
+
               </div>
               <div>
                 <label> Descripción: </label>
@@ -167,5 +253,6 @@
     </body>
     <script type="text/javascript" src="../Scripts/vex-2.1.1/js/vex.combined.min.js"></script>
     <script type="text/javascript" src="PotenciarTrabajo.js"></script>
+    <script type="text/javascript" src="PotenciarTrabajoInformesMensuales.js"></script>
 
 </html>

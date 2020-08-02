@@ -43,22 +43,22 @@ var Backend = {
     },
     PT_Get_Add_Participacion_por_Entidad_Periodo (id_grupo, id_periodo) {
         return this.ReturnAsync([
-          { Persona: { Id_Rol: 1, CUIL: '20-41342135-9', Nombre_Apellido: 'PEREZ, Juan Manuel'},
+          { Persona: { Id_Rol: 1, CUIL: '20-41342135-9', Nombre_Apellido: 'PEREZ, Juan Manuel', Nombre_Estado: 'Actvo'},
             Part_Semana1: 1, Part_Semana2: 1, Part_Semana3: 1, Part_Semana4: 4,
             Part_Semana5: 1, Observacion: 'bla bla weagawrh aetrha setrhserhsaewrhg nsfa wegfaw fgoawoñef gowaegf awoe gf gawg efawgof gwa ge-fg aw ogawegfawef kgawe gfa gwef awe gfawgef agwe gfaw lef awleawergb aewbñrgasewrogasor sarog esdvfa we gfhaw egf phawe hFawfphywfe faweh-fhsegflghgf-he-fhaeñ-fh f- ñlhf -hwefñ aeñ fawr garp gr ease'},
-          { Persona: { Id_Rol: 2, CUIL: '20-41384535-7', Nombre_Apellido: 'GONZALEZ, Maria Jimena'},
+          { Persona: { Id_Rol: 2, CUIL: '20-41384535-7', Nombre_Apellido: 'GONZALEZ, Maria Jimena', Nombre_Estado: 'Actvo'},
             Part_Semana1: 3, Part_Semana2: 1, Part_Semana3: 2, Part_Semana4: 1,
             Part_Semana5: 1, Observacion: 'bla bla'},
-          { Persona: { Id_Rol: 3, CUIL: '20-42344135-3', Nombre_Apellido: 'SCHMIDT, Marisa Paola'},
+          { Persona: { Id_Rol: 3, CUIL: '20-42344135-3', Nombre_Apellido: 'SCHMIDT, Marisa Paola', Nombre_Estado: 'Suspendido'},
             Part_Semana1: 1, Part_Semana2: 2, Part_Semana3: 1, Part_Semana4: 1,
             Part_Semana5: 1, Observacion: 'bla bla'},
-          { Persona: { Id_Rol: 4, CUIL: '20-45344115-4', Nombre_Apellido: 'VIÑATE, Fabiana Carmen'},
+          { Persona: { Id_Rol: 4, CUIL: '20-45344115-4', Nombre_Apellido: 'VIÑATE, Fabiana Carmen', Nombre_Estado: 'Incompatible'},
             Part_Semana1: 1, Part_Semana2: 1, Part_Semana3: 1, Part_Semana4: 1,
             Part_Semana5: 1, Observacion: ''},
-          { Persona: { Id_Rol: 5, CUIL: '20-42124135-5', Nombre_Apellido: 'LOPEZ, Alberto Mario'},
+          { Persona: { Id_Rol: 5, CUIL: '20-42124135-5', Nombre_Apellido: 'LOPEZ, Alberto Mario', Nombre_Estado: 'Actvo'},
             Part_Semana1: 1, Part_Semana2: 1, Part_Semana3: 1, Part_Semana4: 1,
             Part_Semana5: 1, Observacion: ''},
-          { Persona: { Id_Rol: 6, CUIL: '20-42345135-6', Nombre_Apellido: 'MARINI, Pedro Pablo'},
+          { Persona: { Id_Rol: 6, CUIL: '20-42345135-6', Nombre_Apellido: 'MARINI, Pedro Pablo', Nombre_Estado: 'Actvo'},
             Part_Semana1: 1, Part_Semana2: 1, Part_Semana3: 1, Part_Semana4: 1,
             Part_Semana5: 1, Observacion: ''},
         ]);
@@ -82,7 +82,38 @@ var Backend = {
     PT_Add_Justificacion(id_persona_rol, id_motivo, anio_desde, mes_desde, semana_desde, anio_hasta, mes_hasta, semana_hasta, justificacion, id_entidad) {
       console.log('creando justificacion', id_persona_rol, id_motivo, anio_desde, mes_desde, semana_desde, anio_hasta, mes_hasta, semana_hasta, justificacion, id_entidad);
       return this.ReturnAsync({});
-    },    
+    },
+
+    PT_Get_Estado_Informes_Participacion_Por_Periodo(usuario){
+      return this.ReturnAsync([
+        { Entidad: {Anio: 2020, Mes: 1},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
+        { Entidad: {Anio: 2020, Mes: 2},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
+        { Entidad: {Anio: 2020, Mes: 3},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
+        { Entidad: {Anio: 2020, Mes: 4},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
+        { Entidad: {Anio: 2020, Mes: 5},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
+        { Entidad: {Anio: 2020, Mes: 6},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
+        { Entidad: {Anio: 2020, Mes: 7},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
+        { Entidad: {Anio: 2020, Mes: 8},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
+        { Entidad: {Anio: 2020, Mes: 9},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
+        { Entidad: {Anio: 2020, Mes: 10},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
+        { Entidad: {Anio: 2020, Mes: 11},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
+      ]);
+    },
+
+
+
+
+    PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad(anio, mes, usuario){
+      return this.ReturnAsync([
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:1, Nombre_Entidad: 'nombre entidad ' + mes, Estado:'Sin Informe', Id_Informe:1, Id_Cabecera:20}, Cant_Personas:3},
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:1, Nombre_Entidad: 'nombre entidad ' + mes, Estado:'Sin Informe', Id_Informe:1, Id_Cabecera:20}, Cant_Personas:2},
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:1, Nombre_Entidad: 'nombre entidad ' + mes, Estado:'Sin Informe', Id_Informe:4, Id_Cabecera:20}, Cant_Personas:3},
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:1, Nombre_Entidad: 'nombre entidad ' + mes, Estado:'Sin Informe', Id_Informe:1, Id_Cabecera:20}, Cant_Personas:6},
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:1, Nombre_Entidad: 'nombre entidad ' + mes, Estado:'Sin Informe', Id_Informe:7, Id_Cabecera:20}, Cant_Personas:3},
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:1, Nombre_Entidad: 'nombre entidad ' + mes, Estado:'Sin Informe', Id_Informe:1, Id_Cabecera:20}, Cant_Personas:3},
+      ]);
+    },
+
     ReturnAsync(data) {
       var promesa = new Promesa();
       setTimeout(function() {

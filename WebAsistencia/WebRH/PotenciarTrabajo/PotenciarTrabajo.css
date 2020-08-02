@@ -84,7 +84,8 @@
 
 }
 
-.pt_icono_lista {
+/*tal vez mejor refactorizar a una clase para iconos en celdas*/
+.pt_icono_lista , .pt_icono_lupa{
   cursor: pointer;
   height: 22px;
   position: absolute;
@@ -92,9 +93,66 @@
   top: 5px;
 }
 
+
+
+
 #pt_estado_semanal, #pt_estado_mensual {
   display: none;
 }
+
+#pt_seccion_informes_mensuales {
+  display: none;
+}
+
+
+
+#pt_encabezados{
+  text-align: right;
+}
+#pt_unidad_gestion{
+    border: solid 1px black;
+    font-size: x-large;
+    font-weight: bold;
+    margin: 10px;
+    padding: 10px;
+    font-variant-caps: petite-caps;
+    display: inline-block;
+
+}
+
+
+
+
+
+#pt_encabezados_semanal{
+  text-align: right;
+}
+
+
+#pt_encabezados_semanal div{
+  display: inline-block;
+}
+#pt_grupo_de_trabajo{
+    border: solid 1px black;
+    font-size: x-large;
+    font-weight: bold;
+    margin: 10px;
+    padding: 10px;
+    font-variant-caps: petite-caps;
+
+}
+
+#pt_periodo {
+    border: solid 1px black;
+    font-size: x-large;
+    font-weight: bold;
+    margin: 10px;
+    padding: 10px;
+    font-variant-caps: petite-caps;
+}
+
+
+
 
 .pt_contenedor_tabla {
   flex: 1 1 auto;
@@ -144,18 +202,35 @@
   text-overflow: ellipsis;
 }
 
-.pt_justificacion{
 
+
+
+.vex.vex-theme-os .vex-content {
+  background: #ffe699;
+  width: 600px;
+}
+.vex-dialog-message{
+  text-align: center;
+  font-weight: bold;
 }
 
+
 .pt_justificacion_semana_desde_hasta{
-  position: relative;
-  padding-left: 2px;
+  position: absolute;
+  right: 10px;
+  top: 40px;
 }
 
 #pt_justificacion_cmb_semana_hasta{
   height: 23px;
 }
 #pt_descripcion_justificacion{
-  
+
+}
+
+
+.empty_cell{
+  border: none;
+  background-color: #e6e6e6;
+  color: transparent;
 }

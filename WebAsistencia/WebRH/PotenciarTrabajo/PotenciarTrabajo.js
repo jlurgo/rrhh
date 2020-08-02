@@ -3,10 +3,13 @@
     Backend.start(function () {
       console.warn('backend started');
       var seccion = new SeccionEstadoCargaParticipacion();
-      $("#pt_boton_carga_participacion").click(() => {        
+      $("#pt_boton_carga_participacion").click(() => {
+        $(".pt_selected_section_button").removeClass("pt_selected_section_button");
         $("#pt_boton_carga_participacion").addClass("pt_selected_section_button");
         seccion.render();
       });
+      //es el default
+      $("#pt_boton_carga_participacion").addClass("pt_selected_section_button");
     });
 });
 
@@ -34,6 +37,9 @@ class SeccionEstadoCargaParticipacion {
   }
 
   render () {
+    $(".pt_seccion").hide();
+    $("#pt_seccion_gestion_semanal").show();
+
     $("#pt_estado_semanal").hide();
     $("#pt_estado_mensual").show();
     this.tablaMensual.render(JSON.parse(this.periodoSeleccionado));
@@ -79,7 +85,7 @@ class TablaParticipacionMensual extends TablaPT{
           icono_lista.addClass("pt_icono_lista");
           icono_lista.click(() => {
             $("#pt_estado_mensual").hide();
-            this.tablaSemanal.render(e.Id_Entidad, periodo);
+            this.tablaSemanal.render(e.Id_Entidad, periodo, e.Nombre_Entidad);
             $("#pt_estado_semanal").show();
           });
           celda.append(icono_lista);
@@ -107,7 +113,7 @@ class TablaParticipacionSemanal extends TablaPT{
         console.error("error al obtener niveles de participacion: " + e);
       });
   }
-  render (id_entidad, periodo) {
+  render (id_entidad, periodo, Nombre_Entidad) {
     this.idEntidad = id_entidad;
     this.periodo = periodo;
     // <th>CUIL</th>
@@ -118,10 +124,14 @@ class TablaParticipacionSemanal extends TablaPT{
     // <th>Semana 4</th>
     // <th>observaciones a la participación</th>
 
+    $("#pt_estado_semanal #pt_grupo_de_trabajo").text(Nombre_Entidad);
+    $("#pt_estado_semanal #pt_periodo").text(periodo.Mes + " " + periodo.Anio);
+
     const fila_titulos = $("#pt_tabla_participacion_semanal").find("#pt_titulos_tabla_participacion_semanal");
     fila_titulos.empty();
     fila_titulos.append($("<th>CUIL</th>"));
     fila_titulos.append($("<th>Apellido y Nombre</th>"));
+    fila_titulos.append($("<th>Estado</th>"));
     fila_titulos.append($("<th>Semana 1</th>"));
     fila_titulos.append($("<th>Semana 2</th>"));
     fila_titulos.append($("<th>Semana 3</th>"));
@@ -139,6 +149,8 @@ class TablaParticipacionSemanal extends TablaPT{
 
         this.agregarCeldaTextoAFila(fila, p.Persona.CUIL);
         this.agregarCeldaTextoAFila(fila, p.Persona.Nombre_Apellido);
+        this.agregarCeldaTextoAFila(fila, p.Persona.Nombre_Estado);
+
         this.renderComboAsistencia(fila, p.Part_Semana1, (nuevo_valor)=>{
           this.updateParticipacionSemanalPersona(p, 1, nuevo_valor);
         });
@@ -202,10 +214,10 @@ class TablaParticipacionSemanal extends TablaPT{
   updateParticipacionSemanalPersona (asistencia, semana, id_dato) {
     //Si Id del dato es justificacion, se abre popup
     if (id_dato === '4') {
-      var pt_popup_justificación = $('#pt_plantillas').find('.pt_justificacion').clone();
-      var lbl_semana_desde = pt_popup_justificación.find('#pt_justificacion_semana_desde');
+      var pt_popup_justificacion = $('#pt_plantillas').find('.pt_justificacion').clone();
+      var lbl_semana_desde = pt_popup_justificacion.find('#pt_justificacion_semana_desde');
       lbl_semana_desde.html(`${this.periodo.Anio} ${this.periodo.Mes} semana ${semana}`);
-      var cmb_motivo = pt_popup_justificación.find('#pt_justificacion_cmb_motivo');
+      var cmb_motivo = pt_popup_justificacion.find('#pt_justificacion_cmb_motivo');
       cmb_motivo.empty();
       Backend.PT_Get_Cargar_Combo('MotivoJustificacion')
         .onSuccess((motivos) => {
@@ -216,7 +228,7 @@ class TablaParticipacionSemanal extends TablaPT{
         .onError(function (e) {
           console.error("error cargar motivos de justificacion: " + e);
         });
-      var cmb_semana_hasta = pt_popup_justificación.find('#pt_justificacion_cmb_semana_hasta');
+      var cmb_semana_hasta = pt_popup_justificacion.find('#pt_justificacion_cmb_semana_hasta');
       cmb_semana_hasta.empty();
       Backend.PT_Get_Periodos()
         .onSuccess((periodos) => {
@@ -226,18 +238,20 @@ class TablaParticipacionSemanal extends TablaPT{
               if(this.periodo.Id > periodo.Id) continue;
               if(this.periodo.Id == periodo.Id && semana >= i) continue;
               cmb_semana_hasta.append($(`<option value=${periodo.Anio}-${periodo.Id}-${i}> ${periodo.Anio} ${periodo.Mes} semana ${i} </option>`));
-            } 
+            }
           })
         })
         .onError(function (e) {
           console.error("error al cargar periodos: " + e);
         });
-      var txt_descripcion = pt_popup_justificación.find('#pt_descripcion_justificacion');
+      var txt_descripcion = pt_popup_justificacion.find('#pt_descripcion_justificacion');
       txt_descripcion.val('');
       vex.defaultOptions.className = 'vex-theme-os';
+
+
       vex.dialog.open({
         message: 'Justificacion',
-        input: pt_popup_justificación,
+        input: pt_popup_justificacion,
         buttons: [
           $.extend({}, vex.dialog.buttons.YES, { text: 'Guardar' }),
           $.extend({}, vex.dialog.buttons.NO, { text: 'Cancelar' })
@@ -258,7 +272,7 @@ class TablaParticipacionSemanal extends TablaPT{
           var hasta_mes = str_semana_hasta.split('-')[1];
           var hasta_semana = str_semana_hasta.split('-')[2];
           var id_entidad = this.idEntidad;
-          Backend.PT_Add_Justificacion(asistencia.Persona.Id_Rol, motivo, desde_anio, 
+          Backend.PT_Add_Justificacion(asistencia.Persona.Id_Rol, motivo, desde_anio,
             desde_mes, desde_semana, hasta_anio, hasta_mes, hasta_semana, descripcion, id_entidad)
             .onSuccess((datos) => {
               this.render(this.idEntidad, this.periodo);
@@ -269,8 +283,18 @@ class TablaParticipacionSemanal extends TablaPT{
             });
         }
       });
+
+
+
       return;
+
+
+
     }
+
+
+
+
     Backend.PT_Upd_Participacion_por_Entidad_Periodo(
         this.idEntidad,
         this.periodo.Id,
