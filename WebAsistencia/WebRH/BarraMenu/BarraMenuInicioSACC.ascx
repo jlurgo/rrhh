@@ -11,12 +11,15 @@
     <div id="contenedor_imagen">
         <div style="height: 69px; width: 1024px; background-color: #0e1824;" id="barra_menu_contenedor_imagen">
             <%--<img src="<%= UrlImagenes %>BarraMenu/encabezado_sin_logos.png" height="69px;" width="1024px;" alt="logosistema"  />--%>
-            <img src="<%= UrlImagenes %>logo_sistema.png" id="img_logo_sistema" width="130px"
-                height="39px" alt="logosistema" />
-            <img src="<%= UrlImagenes %>logo_ministerio.png" id="img_logo_minis" style="float: left;"
+            <img src="<%= UrlImagenes %>logo_sistema.png" id="img_logo_sistema" width="130px" height="39px" alt="logosistema" />
+            <img src="<%= UrlImagenes %>logo_ministerio_direccion.png" id="img_logo_ministerio_direccion" alt="logosistema" />
+
+            <%--<img src="<%= UrlImagenes %>logo_ministerio.png" id="img_logo_minis" style="float: left;"
                 width="150px" height="27px" alt="logosistema" />
             <img src="<%= UrlImagenes %>logo_direccion.png" id="img_logo_direccion" width="130px"
-                height="26px" alt="logosistema" />
+                height="26px" alt="logosistema" />--%>
+
+
             <div id="barra_menu_nombre_sistema">
                 <%= Feature %></div>
         </div>

@@ -35,6 +35,14 @@
     right: 23px;
     height: 28px;
 }
+
+#img_logo_ministerio_direccion {
+    position: absolute;
+    top: 8px;
+    right: 23px;
+    height: 47px;
+}
+
 #imagen_recomendaciones
 {
    height: 100%;

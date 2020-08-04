@@ -24,8 +24,10 @@
 <div id="barra_menu_contenedor" class="no-print">
     <div id="contenedor_imagen">
         <img src="<%= UrlImagenes %>logo_sistema.png" id="img_logo_sistema" alt="logosistema" />
-        <img src="<%= UrlImagenes %>logo_ministerio.png" id="img_logo_minis" alt="logosistema" />
-        <img src="<%= UrlImagenes %>logo_direccion.png" id="img_logo_direccion" alt="logosistema" />
+        <img src="<%= UrlImagenes %>logo_ministerio_direccion.png" id="img_logo_ministerio_direccion" alt="logosistema" />
+
+        <%--<img src="<%= UrlImagenes %>logo_ministerio.png" id="img_logo_minis" alt="logosistema" />--%>
+        <%-- <img src="<%= UrlImagenes %>logo_direccion.png" id="img_logo_direccion" alt="logosistema" />--%>
         <div id="barra_menu_nombre_sistema">
         </div>
     </div>
