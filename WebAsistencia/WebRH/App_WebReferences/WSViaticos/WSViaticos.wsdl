@@ -1322,7 +1322,7 @@
       </s:complexType>
       <s:complexType name="PT_Entidad">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Id_Cabecera" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id_Cabecera" nillable="true" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="Id_Entidad" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="Nombre_Entidad" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="Mes" type="s:int" />

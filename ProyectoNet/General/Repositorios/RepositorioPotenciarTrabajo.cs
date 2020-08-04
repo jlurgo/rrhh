@@ -332,7 +332,10 @@ namespace General.Repositorios
             {
                 res = new PT_Informe();
                 res.Entidad = new PT_Entidad();
-                res.Entidad.Id_Cabecera = dr.GetInt32(dr.GetOrdinal("Id_Registro_Cabecera"));
+                if (!dr.IsDBNull(dr.GetOrdinal("Id_Registro_Cabecera")))
+                {
+                    res.Entidad.Id_Cabecera = dr.GetInt32(dr.GetOrdinal("Id_Registro_Cabecera"));
+                };
                 res.Entidad.Id_Entidad = dr.GetInt32(dr.GetOrdinal("Id_Entidad_Tarea"));
                 res.Entidad.Nombre_Entidad = dr.GetString(dr.GetOrdinal("Nombre_Entidad"));
                 res.Entidad.Anio = dr.GetInt32(dr.GetOrdinal("anio"));
