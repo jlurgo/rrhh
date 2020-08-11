@@ -6,6 +6,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Potenciar Trabajo</title>
+    <link href="../Scripts/vex-2.1.1/css/vex.css" rel="stylesheet">
+    <link href="../Scripts/vex-2.1.1/css/vex-theme-os.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="PotenciarTrabajo.css" />
     <%= Referencias.Css("../")%>
     <%= Referencias.Javascript("../")%>
@@ -69,7 +71,6 @@
                           <th> Sin Carga </th>
                           <th> En Proceso </th>
                           <th> Con Informe </th>
-
                         </tr>
                       </table>
                     </div>
@@ -78,10 +79,10 @@
                     <div id="pt_titulo_seccion">
                       Registro de Participacion en Actividades del Grupo de Trabajo
                     </div>
-                    <div id="pt_nota">
+                    <div class="pt_nota">
                       Nota: Por defecto, todas las personas presentan un cumplimiento del 100%
                     </div>
-                    <div id="pt_nota">
+                    <div id="pt_nota_de_abajo" class="pt_nota">
                       MODIFIQUE las que corresponda a MENORES porcentajes de cumplimiento (seleccionando el valor correcto de la lista desplegable)
                     </div>
                     <div id="pt_contenedor_tabla_participacion_semanal"
@@ -90,13 +91,6 @@
                         class="pt_tabla">
                         <tr id="pt_titulos_tabla_participacion_semanal"
                           class="pt_fila_titulo_tabla">
-                          <th>CUIL</th>
-                          <th>Apellido y Nombre</th>
-                          <th>Semana 1</th>
-                          <th>Semana 2</th>
-                          <th>Semana 3</th>
-                          <th>Semana 4</th>
-                          <th>observaciones a la participación</th>
                         </tr>
                       </table>
                     </div>
@@ -111,8 +105,33 @@
                   <div id="pt_controles_inferiores"></div>
                 </div>
             </div>
+            <div id="pt_plantillas">
+              <div class="pt_justificacion">
+                <div>
+                  <label> Motivo: </label>
+                  <select id="pt_justificacion_cmb_motivo">
+                  </select>
+                </div>
+                <div class="pt_justificacion_semana_desde_hasta">
+                  <div>
+                    <label> Semana desde: </label>
+                    <label id="pt_justificacion_semana_desde"> </label>
+                  </div>
+                  <div>
+                  <label> Semana hasta: </label>
+                    <select id="pt_justificacion_cmb_semana_hasta">
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label> Descripción: </label>
+                  <textarea id="pt_descripcion_justificacion"> </textarea>
+                </div>
+              </div>
+            </div>
         </form>
     </body>
+    <script type="text/javascript" src="../Scripts/vex-2.1.1/js/vex.combined.min.js"></script>
     <script type="text/javascript" src="PotenciarTrabajo.js"></script>
 
 </html>

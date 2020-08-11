@@ -76,7 +76,11 @@
 #pt_cmb_periodo {
 
 }
-#pt_nota {
+#pt_nota_de_abajo {
+  margin-bottom: 10px;
+}
+
+.pt_nota {
 
 }
 
@@ -130,4 +134,28 @@
 }
 #pt_controles_inferiores{
 
+}
+.celda_observacion{
+  overflow: hidden;
+  max-width: 300px;
+  padding-right: 33px;
+  padding-left: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pt_justificacion{
+
+}
+
+.pt_justificacion_semana_desde_hasta{
+  position: relative;
+  padding-left: 2px;
+}
+
+#pt_justificacion_cmb_semana_hasta{
+  height: 23px;
+}
+#pt_descripcion_justificacion{
+  
 }

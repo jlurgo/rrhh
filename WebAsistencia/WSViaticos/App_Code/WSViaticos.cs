@@ -7339,11 +7339,11 @@ public class WSViaticos : System.Web.Services.WebService
     /// -------------------- Potenciar Trabajo -------------------------------------------------
 
     [WebMethod]
-    public List<PT_Resumen_Inicial> PT_Get_Estado_Carga_Participacion_Por_Periodo (int anio, int mes)
+    public List<PT_Resumen_Inicial> PT_Get_Estado_Carga_Participacion_Por_Periodo (int anio, int mes, Usuario usuario)
     {
         var RepositorioPT = new RepositorioPotenciarTrabajo();
 
-        return RepositorioPT.PT_Get_Estado_Carga_Participacion_Por_Periodo(anio, mes);
+        return RepositorioPT.PT_Get_Estado_Carga_Participacion_Por_Periodo(anio, mes, usuario);
     }
 
 
@@ -7402,13 +7402,21 @@ public class WSViaticos : System.Web.Services.WebService
 
 
     [WebMethod]
-    public void PT_Upd_Participacion_por_Entidad_Periodo (int id_entidad, int mes, int anio, int semana, int id_persona_rol, int id_dato_justificacion, Usuario usuario)
+    public void PT_Upd_Participacion_por_Entidad_Periodo (int id_entidad, int mes, int anio, int semana, int id_persona_rol, int id_dato_participacion, Usuario usuario)
     {
         var RepositorioPT = new RepositorioPotenciarTrabajo();
 
-        RepositorioPT.PT_Upd_Participacion_por_Entidad_Periodo(id_entidad, mes, anio, semana, id_persona_rol, id_dato_justificacion, usuario);
+        RepositorioPT.PT_Upd_Participacion_por_Entidad_Periodo(id_entidad, mes, anio, semana, id_persona_rol, id_dato_participacion, usuario);
     }
 
+
+    [WebMethod]
+    public void PT_UPD_Participacion_Observacion (int id_entidad, int mes, int anio, int id_persona_rol, string observacion, Usuario usuario)
+    {
+        var RepositorioPT = new RepositorioPotenciarTrabajo();
+
+        RepositorioPT.PT_UPD_Participacion_Observacion(id_entidad, mes, anio, id_persona_rol, observacion, usuario);
+    }
 
     [WebMethod]
     public List<PT_Justificacion> PT_Get_Justificacion(int id_registro)
@@ -7420,20 +7428,20 @@ public class WSViaticos : System.Web.Services.WebService
 
 
     [WebMethod]
-    public void PT_Add_Justificacion(int id_persona_rol, int id_motivo, int anio_desde, int mes_desde, int semana_desde, int anio_hasta, int mes_hasta, int semana_hasta, string id_justificacion, Usuario usuario)
+    public void PT_Add_Justificacion(int id_persona_rol, int id_motivo, int anio_desde, int mes_desde, int semana_desde, int anio_hasta, int mes_hasta, int semana_hasta, string justificacion, int id_entidad, Usuario usuario)
     {
         var RepositorioPT = new RepositorioPotenciarTrabajo();
 
-        RepositorioPT.PT_Add_Justificacion(id_persona_rol, id_motivo, anio_desde, mes_desde, semana_desde, anio_hasta, mes_hasta, semana_hasta, id_justificacion, usuario);
+        RepositorioPT.PT_Add_Justificacion(id_persona_rol, id_motivo, anio_desde, mes_desde, semana_desde, anio_hasta, mes_hasta, semana_hasta, justificacion, id_entidad, usuario);
     }
 
 
     [WebMethod]
-    public void PT_Upd_Justificacion(int id_registro, int anio_hasta, int mes_hasta, int semana_hasta, string id_justificacion, Usuario usuario)
+    public void PT_Upd_Justificacion(int id_registro_justif, int anio_hasta, int mes_hasta, int semana_hasta, string justificacion, int id_entidad, Usuario usuario)
     {
         var RepositorioPT = new RepositorioPotenciarTrabajo();
 
-        RepositorioPT.PT_Upd_Justificacion(id_registro, anio_hasta, mes_hasta, semana_hasta, id_justificacion, usuario);
+        RepositorioPT.PT_Upd_Justificacion(id_registro_justif, anio_hasta, mes_hasta, semana_hasta, justificacion, id_entidad, usuario);
     }
 
 

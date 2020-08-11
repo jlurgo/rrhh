@@ -25,6 +25,10 @@ namespace General.Repositorios
                     cn = new ConexionDB("dbo.PRGSOC_GET_Entidades");
                     break;
 
+                case "MotivoJustificacion":
+                    cn = new ConexionDB("dbo.PRGSOC_GET_Tabla_Motivos_Justificacion");
+                    break;
+                    
 
                 default:
                     break;
@@ -38,7 +42,7 @@ namespace General.Repositorios
             while (dr.Read())
             {
                 combo = new GeneralCombos();
-                combo.id = dr.GetInt16(dr.GetOrdinal("Id"));
+                combo.id = dr.GetInt32(dr.GetOrdinal("Id"));
                 combo.descripcion = dr.GetString(dr.GetOrdinal("Descripcion"));
 
                 lista.Add(combo);
@@ -144,24 +148,37 @@ namespace General.Repositorios
             return lista;
         }
 
-        public void PT_Upd_Participacion_por_Entidad_Periodo(int id_entidad, int mes, int anio, int semana, int id_persona_rol, int id_dato_justificacion, Usuario usuario)
+        public void PT_Upd_Participacion_por_Entidad_Periodo(int id_entidad, int mes, int anio, int semana, int id_persona_rol, int id_dato_participacion, Usuario usuario)
         {
-            SqlDataReader dr;
             ConexionDB cn = new ConexionDB("dbo.PRGSOC_UPD_Participacion_Por_Entidad_Periodo");
             cn.AsignarParametro("@Id_Entidad", id_entidad);
             cn.AsignarParametro("@Mes", mes);
             cn.AsignarParametro("@Anio", anio);
             cn.AsignarParametro("@Semana", semana);
             cn.AsignarParametro("@Id_Persona_Rol", id_persona_rol);
-            cn.AsignarParametro("@Id_Dato_Justificacion", id_dato_justificacion);
+            cn.AsignarParametro("@Id_Dato_Participacion", id_dato_participacion);
             cn.AsignarParametro("@Usuario", usuario.Id);
             
            cn.EjecutarSinResultado();
         }
 
-        public void PT_Add_Justificacion(int id_persona_rol, int id_motivo, int anio_desde, int mes_desde, int semana_desde, int anio_hasta, int mes_hasta, int semana_hasta, string id_justificacion, Usuario usuario)
+
+        public void PT_UPD_Participacion_Observacion(int id_entidad, int mes, int anio, int id_persona_rol, string observacion, Usuario usuario)
+        {            
+            ConexionDB cn = new ConexionDB("dbo.PRGSOC_UPD_Participacion_Observacion");
+            cn.AsignarParametro("@Id_Entidad", id_entidad);
+            cn.AsignarParametro("@Mes", mes);
+            cn.AsignarParametro("@Anio", anio);
+            cn.AsignarParametro("@Id_Persona_Rol", id_persona_rol);
+            cn.AsignarParametro("@Observacion", observacion);
+            cn.AsignarParametro("@Usuario", usuario.Id);
+
+            cn.EjecutarSinResultado();
+        }
+        
+
+        public void PT_Add_Justificacion(int id_persona_rol, int id_motivo, int anio_desde, int mes_desde, int semana_desde, int anio_hasta, int mes_hasta, int semana_hasta, string justificacion, int id_entidad, Usuario usuario)
         {
-            SqlDataReader dr;
             ConexionDB cn = new ConexionDB("dbo.PRGSOC_ADD_PRGSOC_Participacion_Justificacion");
             cn.AsignarParametro("@Id_Persona_Rol", id_persona_rol);
             cn.AsignarParametro("@Id_Motivo", id_motivo);
@@ -171,23 +188,26 @@ namespace General.Repositorios
             cn.AsignarParametro("@Anio_Hasta", anio_hasta);
             cn.AsignarParametro("@Mes_Hasta", mes_hasta);
             cn.AsignarParametro("@Semana_Hasta", semana_hasta);
-            cn.AsignarParametro("@Justificacion", id_justificacion);
+            cn.AsignarParametro("@Justificacion", justificacion);
             cn.AsignarParametro("@Id_Usuario_Carga", usuario.Id);
-            
+            cn.AsignarParametro("@Id_Entidad", id_entidad);
+
+
             cn.EjecutarSinResultado();
         }
         
-        public void PT_Upd_Justificacion(int id_registro, int anio_hasta, int mes_hasta, int semana_hasta, string id_justificacion, Usuario usuario)
+        public void PT_Upd_Justificacion(int id_registro_justif, int anio_hasta, int mes_hasta, int semana_hasta, string justificacion, int id_entidad, Usuario usuario)
         {
-            SqlDataReader dr;
             ConexionDB cn = new ConexionDB("dbo.PRGSOC_UPD_PRGSOC_Participacion_Justificacion");
-            cn.AsignarParametro("@Id_Registro", id_registro);
+            cn.AsignarParametro("@Id_Registro", id_registro_justif);
             cn.AsignarParametro("@Anio_Hasta", anio_hasta);
             cn.AsignarParametro("@Mes_Hasta", mes_hasta);
             cn.AsignarParametro("@Semana_Hasta", semana_hasta);
-            cn.AsignarParametro("@Justificacion", id_justificacion);
+            cn.AsignarParametro("@Justificacion", justificacion);
             cn.AsignarParametro("@Id_Usuario_Carga", usuario.Id);
-        
+            cn.AsignarParametro("@Id_Entidad", id_entidad);
+
+
             cn.EjecutarSinResultado();
         }
 
@@ -226,13 +246,14 @@ namespace General.Repositorios
             return lista;
         }
 
-        public List<PT_Resumen_Inicial> PT_Get_Estado_Carga_Participacion_Por_Periodo(int anio, int mes)
+        public List<PT_Resumen_Inicial> PT_Get_Estado_Carga_Participacion_Por_Periodo(int anio, int mes, Usuario usuario)
         {
             SqlDataReader dr;
             ConexionDB cn = new ConexionDB("dbo.PRGSOC_GET_Estado_Carga_Participacion_Por_Periodo");
             cn.AsignarParametro("@anio", anio);
             cn.AsignarParametro("@mes", mes);
-            
+            cn.AsignarParametro("@Id_usuario", usuario.Id);
+
             dr = cn.EjecutarConsulta();
 
             PT_Resumen_Inicial res;
@@ -250,13 +271,17 @@ namespace General.Repositorios
                 res.Sin_Carga = dr.GetInt32(dr.GetOrdinal("SinCarga"));
                 res.En_Proceso = dr.GetInt32(dr.GetOrdinal("EnProceso"));
                 res.Con_Informe = dr.GetInt32(dr.GetOrdinal("ConInforme"));
-
-
+                res.IdFuncionalidad = dr.GetInt32(dr.GetOrdinal("IdFuncionalidad"));
+                res.NombreFuncionalidad = dr.GetString(dr.GetOrdinal("NombreFuncionalidad"));
+                
                 lista.Add(res);
             }
 
             cn.Desconestar();
             return lista;
         }
+
+       
+        
     }
 }
