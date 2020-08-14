@@ -393,5 +393,49 @@ namespace General.Repositorios
             return true;
 
         }
+
+        public List<PT_Informe> PT_Get_Generar_Informe(int idInforme, Usuario usuario)
+        {
+
+            SqlDataReader dr;
+            ConexionDB cn = new ConexionDB("dbo.PRGSOC_GET_Generar_Informe");
+            cn.AsignarParametro("@Id_Informe", idInforme);
+
+            dr = cn.EjecutarConsulta();
+
+            PT_Informe res;
+            List<PT_Informe> lista = new List<PT_Informe>();
+
+            while (dr.Read())
+            {
+                res = new PT_Informe();
+                res.Entidad = new PT_Entidad();
+                res.Entidad.Id_Informe = dr.GetInt32(dr.GetOrdinal("Id_Informe"));
+                res.Entidad.Fecha_Informe = dr.GetDateTime(dr.GetOrdinal("Fecha_Informe"));
+                res.Entidad.Usuario_Informe = dr.GetString(dr.GetOrdinal("Usuario_Informe"));
+                res.Entidad.Nombre_Entidad = dr.GetString(dr.GetOrdinal("Nombre_Entidad"));
+                res.Entidad.Nombre_Mes = dr.GetString(dr.GetOrdinal("Mes"));
+                res.Entidad.Observacion = dr.GetString(dr.GetOrdinal("Observacion"));
+
+                res.Persona = new PT_Personas();
+                res.Persona.CUIL = dr.GetString(dr.GetOrdinal("CUIL"));
+                res.Persona.Nombre_Apellido = dr.GetString(dr.GetOrdinal("Apellido_Nombre"));
+                res.Persona.Nombre_Estado = dr.GetString(dr.GetOrdinal("Nombre_Estado"));
+
+                res.Participacion = new PT_Participacion();                
+                res.Participacion.Dato_Part_Semana1 = dr.GetString(dr.GetOrdinal("Part_Semana1"));
+                res.Participacion.Dato_Part_Semana2 = dr.GetString(dr.GetOrdinal("Part_Semana2"));
+                res.Participacion.Dato_Part_Semana3 = dr.GetString(dr.GetOrdinal("Part_Semana3"));
+                res.Participacion.Dato_Part_Semana4 = dr.GetString(dr.GetOrdinal("Part_Semana4"));
+                res.Participacion.Dato_Part_Semana5 = dr.GetString(dr.GetOrdinal("Part_Semana5"));
+                
+                lista.Add(res);
+            }
+
+            cn.Desconestar();
+            return lista;
+
+
+        }
     }
 }

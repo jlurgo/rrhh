@@ -7472,6 +7472,89 @@ public class WSViaticos : System.Web.Services.WebService
     }
 
 
+    [WebMethod]
+    public void PT_Get_Generar_Informe (int idInforme, Usuario usuario)
+    {
+        //var RepositorioPT = new RepositorioPotenciarTrabajo();
+
+        //List<PT_Informe> PDF =  RepositorioPT.PT_Get_Generar_Informe(idInforme, usuario);
+
+        List<PT_Informe> pdf = new List<PT_Informe>();
+
+        PDF_Generar_Informe(pdf);
+
+    }
+
+    
+    private void PDF_Generar_Informe(List<PT_Informe> lista)
+    {
+        Document doc = new Document(PageSize.A4);
+        // Indicamos donde vamos a guardar el documento
+        PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(@"C:\German\PotenciarTrabajo.pdf", FileMode.Create));
+
+        // Le colocamos el título y el autor
+        // **Nota: Esto no será visible en el documento
+        doc.AddTitle("Potenciar Trabajo");
+        doc.AddCreator("Ministerio de Desarrollo Social");
+
+        // Abrimos el archivo
+        doc.Open();
+
+
+        iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+
+        // Escribimos el encabezamiento en el documento
+        doc.Add(new Paragraph("Programa PotenciAR Trabajo"));
+        doc.Add(Chunk.NEWLINE);
+        doc.Add(new Paragraph("Informe Mensual de Participacion"));
+        doc.Add(Chunk.NEWLINE);
+
+        // Creamos una tabla que contendrá el nombre, apellido y país
+        // de nuestros visitante.
+        PdfPTable tblPrueba = new PdfPTable(3);
+        tblPrueba.WidthPercentage = 100;
+
+        // Configuramos el título de las columnas de la tabla
+        PdfPCell clNombre = new PdfPCell(new Phrase("Nombre", _standardFont));
+        clNombre.BorderWidth = 0;
+        clNombre.BorderWidthBottom = 0.75f;
+
+        PdfPCell clApellido = new PdfPCell(new Phrase("Apellido", _standardFont));
+        clApellido.BorderWidth = 0;
+        clApellido.BorderWidthBottom = 0.75f;
+
+        PdfPCell clPais = new PdfPCell(new Phrase("Observacion", _standardFont));
+        clPais.BorderWidth = 0;
+        clPais.BorderWidthBottom = 0.75f;
+
+        // Añadimos las celdas a la tabla
+        tblPrueba.AddCell(clNombre);
+        tblPrueba.AddCell(clApellido);
+        tblPrueba.AddCell(clPais);
+
+        // Llenamos la tabla con información
+        clNombre = new PdfPCell(new Phrase("PARA", _standardFont));
+        clNombre.BorderWidth = 0;
+
+        clApellido = new PdfPCell(new Phrase("TU MAMA", _standardFont));
+        clApellido.BorderWidth = 0;
+
+        clPais = new PdfPCell(new Phrase("JAJAJAJAJ", _standardFont));
+        clPais.BorderWidth = 0;
+
+        // Añadimos las celdas a la tabla
+        tblPrueba.AddCell(clNombre);
+        tblPrueba.AddCell(clApellido);
+        tblPrueba.AddCell(clPais);
+
+
+        doc.Add(tblPrueba);
+
+        doc.Close();
+        writer.Close();
+
+    }
+
 
 
     /// -------------------- Potenciar Trabajo -------------------------------------------------

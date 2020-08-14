@@ -1174,6 +1174,11 @@
           <s:element minOccurs="1" maxOccurs="1" name="Part_Semana5" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="Justif_Semana5" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="Observacion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Dato_Part_Semana1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Dato_Part_Semana2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Dato_Part_Semana3" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Dato_Part_Semana4" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Dato_Part_Semana5" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:complexType name="PT_Personas">
@@ -1311,6 +1316,8 @@
       <s:complexType name="PT_Informe">
         <s:sequence>
           <s:element minOccurs="0" maxOccurs="1" name="Entidad" type="tns:PT_Entidad" />
+          <s:element minOccurs="0" maxOccurs="1" name="Persona" type="tns:PT_Personas" />
+          <s:element minOccurs="0" maxOccurs="1" name="Participacion" type="tns:PT_Participacion" />
           <s:element minOccurs="1" maxOccurs="1" name="Ent_SinCarga" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="Ent_EnProceso" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="Ent_ConInforme" type="s:int" />
@@ -1327,8 +1334,11 @@
           <s:element minOccurs="0" maxOccurs="1" name="Nombre_Entidad" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="Mes" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="Anio" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="Id_Informe" nillable="true" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="Estado" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id_Informe" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Fecha_Informe" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Usuario_Informe" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Observacion" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad">
@@ -1366,6 +1376,17 @@
             <s:element minOccurs="1" maxOccurs="1" name="PT_Upd_Generar_Informe_ParticipacionResult" type="s:boolean" />
           </s:sequence>
         </s:complexType>
+      </s:element>
+      <s:element name="PT_Get_Generar_Informe">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="idInforme" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="tns:Usuario" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PT_Get_Generar_InformeResponse">
+        <s:complexType />
       </s:element>
       <s:element name="GuardarDDJJCOVID19">
         <s:complexType>
@@ -9739,6 +9760,12 @@
   <wsdl:message name="PT_Upd_Generar_Informe_ParticipacionSoapOut">
     <wsdl:part name="parameters" element="tns:PT_Upd_Generar_Informe_ParticipacionResponse" />
   </wsdl:message>
+  <wsdl:message name="PT_Get_Generar_InformeSoapIn">
+    <wsdl:part name="parameters" element="tns:PT_Get_Generar_Informe" />
+  </wsdl:message>
+  <wsdl:message name="PT_Get_Generar_InformeSoapOut">
+    <wsdl:part name="parameters" element="tns:PT_Get_Generar_InformeResponse" />
+  </wsdl:message>
   <wsdl:message name="GuardarDDJJCOVID19SoapIn">
     <wsdl:part name="parameters" element="tns:GuardarDDJJCOVID19" />
   </wsdl:message>
@@ -12396,6 +12423,10 @@
       <wsdl:input message="tns:PT_Upd_Generar_Informe_ParticipacionSoapIn" />
       <wsdl:output message="tns:PT_Upd_Generar_Informe_ParticipacionSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="PT_Get_Generar_Informe">
+      <wsdl:input message="tns:PT_Get_Generar_InformeSoapIn" />
+      <wsdl:output message="tns:PT_Get_Generar_InformeSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GuardarDDJJCOVID19">
       <wsdl:input message="tns:GuardarDDJJCOVID19SoapIn" />
       <wsdl:output message="tns:GuardarDDJJCOVID19SoapOut" />
@@ -14492,6 +14523,15 @@
     </wsdl:operation>
     <wsdl:operation name="PT_Upd_Generar_Informe_Participacion">
       <soap:operation soapAction="http://wsviaticos.gov.ar/PT_Upd_Generar_Informe_Participacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Get_Generar_Informe">
+      <soap:operation soapAction="http://wsviaticos.gov.ar/PT_Get_Generar_Informe" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -18635,6 +18675,15 @@
     </wsdl:operation>
     <wsdl:operation name="PT_Upd_Generar_Informe_Participacion">
       <soap12:operation soapAction="http://wsviaticos.gov.ar/PT_Upd_Generar_Informe_Participacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PT_Get_Generar_Informe">
+      <soap12:operation soapAction="http://wsviaticos.gov.ar/PT_Get_Generar_Informe" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

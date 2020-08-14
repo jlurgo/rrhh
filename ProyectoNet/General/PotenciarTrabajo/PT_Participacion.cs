@@ -20,6 +20,12 @@ namespace General.PotenciarTrabajo
         public int Justif_Semana5 { get; set; }
         public string Observacion { get; set; }
 
+        public string Dato_Part_Semana1 { get; set; }
+        public string Dato_Part_Semana2 { get; set; }
+        public string Dato_Part_Semana3 { get; set; }
+        public string Dato_Part_Semana4 { get; set; }
+        public string Dato_Part_Semana5 { get; set; }
+
         
     }
 }
