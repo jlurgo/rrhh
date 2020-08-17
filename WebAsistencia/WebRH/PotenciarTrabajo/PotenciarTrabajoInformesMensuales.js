@@ -151,4 +151,10 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
 
 
   }
+
+
+
+
+
+  
 }
