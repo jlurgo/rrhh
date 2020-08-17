@@ -85,7 +85,7 @@
 }
 
 /*tal vez mejor refactorizar a una clase para iconos en celdas*/
-.pt_icono_lista , .pt_icono_lupa{
+.pt_icono_celda{
   cursor: pointer;
   height: 22px;
   position: absolute;
@@ -193,6 +193,15 @@
 #pt_controles_inferiores{
 
 }
+
+#pt_controles_inferiores_detalle_mensual{
+  text-align: right;
+}
+
+#pt_generar_informe_participacion{
+  margin: 10px 10px 10px 10px;
+}
+
 .celda_observacion{
   overflow: hidden;
   max-width: 300px;

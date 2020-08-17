@@ -82,7 +82,7 @@ class TablaParticipacionMensual extends TablaPT{
           celda.text(e.En_Proceso);
           const icono_lista = $("<img>");
           icono_lista.attr("src", "IconoLista.png");
-          icono_lista.addClass("pt_icono_lista");
+          icono_lista.addClass("pt_icono_celda");
           icono_lista.click(() => {
             $("#pt_estado_mensual").hide();
             this.tablaSemanal.render(e.Id_Entidad, periodo, e.Nombre_Entidad);
@@ -173,7 +173,7 @@ class TablaParticipacionSemanal extends TablaPT{
         celda_obs.addClass("celda_observacion");
         const icono_lista = $("<img>");
         icono_lista.attr("src", "IconoLista.png");
-        icono_lista.addClass("pt_icono_lista");
+        icono_lista.addClass("pt_icono_celda");
         icono_lista.click(() => {
           vex.defaultOptions.className = 'vex-theme-os';
           vex.dialog.prompt({

@@ -28,8 +28,8 @@ class SeccionEstadoInformesParticipacion {
 class TablaInformesParticipacion extends TablaPT{
   constructor () {
     super();
-    self = this;
-    this.tablaInformesParticipacionDetalleMensual =  new TablaInformesParticipacionDetalleMensual();
+    var self = this;
+    self.tablaInformesParticipacionDetalleMensual =  new TablaInformesParticipacionDetalleMensual();
 
     Backend.PT_Get_Estado_Informes_Participacion_Por_Periodo()
       .onSuccess((informes_participacion) => {
@@ -48,10 +48,10 @@ class TablaInformesParticipacion extends TablaPT{
 
           const icono_lupa = $("<img>");
           icono_lupa.attr("src", "IconoLupa.png");
-          icono_lupa.addClass("pt_icono_lupa");
+          icono_lupa.addClass("pt_icono_celda");
           icono_lupa.click(() => {
 
-            fila = icono_lupa.parent().parent();
+            var fila = icono_lupa.parent().parent();
 
             self.tablaInformesParticipacionDetalleMensual.render(fila.attr("Anio"), fila.attr("Mes"));
           });
@@ -81,7 +81,7 @@ class TablaInformesParticipacion extends TablaPT{
         });
       })
       .onError(function (e) {
-        console.error("error al obtener niveles de participacion: " + e);
+        console.error("error al obtener estado de informes de participacion: " + e);
       });
   }
   render () {
@@ -96,69 +96,189 @@ class TablaInformesParticipacion extends TablaPT{
 class TablaInformesParticipacionDetalleMensual extends TablaPT{
   constructor () {
     super();
+    var self = this;
+
+    $("#pt_generar_informe_participacion").click(() => {
+
+
+      if(self.lista_generar_informe.length == 0){
+        alert("Debe elegir al menos un elemento")
+        return
+      }
+
+
+      Backend.PT_Upd_Generar_Informe_Participacion(self.lista_generar_informe)
+      .onSuccess(function (e) {
+        self.render();
+      })
+      .onError(function (e) {
+        console.error("error al generar informe de participacion: " + e);
+      });
+
+    });
+
   }
   render (anio, mes) {
+    var self = this;
 
-      // DEBUG: quiero ver si llegan los parametros
-      console.log(anio, mes);
+    this.lista_generar_informe = [];
 
+    if(anio != "undefined" ){
+      self.anio = anio;
+      self.mes = mes;
+    }
 
-      $("#pt_detalle_mensual").show();
+    $("#pt_detalle_mensual").show();
 
-
-
-      Backend.PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad(anio, mes) // TODO: , "usuario")
-        .onSuccess((informes_participacion) => {
-
-
-          $("#pt_tabla_informes_participacion_detalle_mensual").find(".pt_fila_informes_participacion_detalle_mensual").remove();
-
-          _.forEach(informes_participacion, (i) => {
-            var fila = $("<tr>");
-
-            // TODO: TBD es To Be Defined
-            // this.agregarCeldaTextoAFila(fila, "TBD Entidad TBD Entidad TBD");
-            this.agregarCeldaTextoAFila(fila, i.Entidad.Nombre_Entidad);
+    Backend.PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad(self.anio, self.mes)
+      .onSuccess((informes_participacion) => {
 
 
-            var celda = $("<td>");
-            celda.text(i.Cant_Personas);
-            // var icono_lupa = $("<img>");
-            // icono_lupa.attr("src", "IconoLupa.png");
-            // icono_lupa.addClass("pt_icono_lupa");
-            // icono_lupa.click(() => {
-            //   // TODO:
-            //   alert("En construcción TBD")
-            // });
-            // celda.append(icono_lupa);
-            fila.append(celda);
+        $("#pt_tabla_informes_participacion_detalle_mensual").find(".pt_fila_informes_participacion_detalle_mensual").remove();
 
-            this.agregarCeldaTextoAFila(fila, i.Entidad.Estado);
+        _.forEach(informes_participacion, (i) => {
+          var fila = $("<tr>");
 
 
-            // TODO: TBD es To Be Defined
-            // var celda = $("<td>");
-            // celda.text("TBD SI");
-            // var icono_lupa = $("<img>");
-            // icono_lupa.attr("src", "IconoLupa.png");
-            // icono_lupa.addClass("pt_icono_lupa");
-            // icono_lupa.click(() => {
-            //   // TODO:
-            //   alert("En construcción TBD")
-            // });
-            // celda.append(icono_lupa);
-            // fila.append(celda);
 
-            this.agregarCeldaTextoAFila(fila, i.Entidad.Id_Informe);
+          fila.attr("Id_Entidad", i.Entidad.Id_Entidad);
+          fila.attr("Id_Informe", i.Entidad.Id_Informe);
 
-            fila.addClass("pt_fila_informes_participacion_detalle_mensual");
-            $("#pt_tabla_informes_participacion_detalle_mensual").append(fila);
-          });
-        })
-        .onError(function (e) {
-          console.error("error al obtener niveles de participacion: " + e);
+
+
+
+
+          // Grupo de Trabajo
+          var celda_nombre_entidad = this.agregarCeldaTextoAFila(fila, i.Entidad.Nombre_Entidad);
+
+
+
+          // Personas
+          var celda_cant_personas = this.agregarCeldaTextoAFila(fila, i.Cant_Personas);
+          // var icono_lupa = $("<img>");
+          // icono_lupa.attr("src", "IconoLupa.png");
+          // icono_lupa.addClass("pt_icono_celda");
+          // icono_lupa.click(() => {
+          //   // TODO:
+          //   alert("En construcción TBD")
+          // });
+          // celda_cant_personas.append(icono_lupa);
+
+
+
+
+          // Estado
+          var celda_estado = this.agregarCeldaTextoAFila(fila, i.Entidad.Estado);
+
+
+
+
+
+
+          // Incluir en Informe
+          var celda_incluir_en_informe = this.agregarCeldaTextoAFila(fila, "");
+
+
+          if(i.Entidad.Estado == 'En Proceso') {
+
+            var checkbox = $("<input type='checkbox'/>");
+            checkbox.click(() => {
+              var fila = checkbox.parent().parent();
+
+              if(checkbox.prop('checked')== true){
+                self.lista_generar_informe.push(fila.attr("Id_Entidad"));
+              }else{
+
+                for (var i = 0; i < self.lista_generar_informe.length; i++) {
+                  if(fila.attr("Id_Entidad") == self.lista_generar_informe[i]){
+                    self.lista_generar_informe.splice(i,1);
+                  }
+                }
+              }
+            });
+
+          }else{
+            celda_incluir_en_informe.text("---")
+          }
+
+
+
+          celda_incluir_en_informe.append(checkbox);
+
+
+
+
+
+          // N° de Informe
+          var celda_id_informe = this.agregarCeldaTextoAFila(fila, i.Entidad.Id_Informe);
+
+          if(i.Entidad.Estado == 'Con Informe') {
+            var icono = $("<img>");
+            icono.attr("src", "IconoDownload.png");
+            icono.addClass("pt_icono_celda");
+            icono.click(() => {
+              var fila = icono.parent().parent();
+
+              Backend.PT_Get_Informe_Participacion(fila.attr("Id_Informe"))
+              .onSuccess((pdf_string) => {
+
+
+
+                var a = window.document.createElement('a');
+
+                a.href = 'data:application/pdf;base64,' + pdf_string;
+
+                a.download = "Informe_Participacion_Nro_" + fila.attr("Id_Informe") + ".pdf";
+
+
+                // Append anchor to body.
+                document.body.appendChild(a)
+                a.click();
+
+
+                // Remove anchor from body
+                document.body.removeChild(a)
+
+
+              })
+              .onError(function (e) {
+                console.error("error al obtener niveles de participacion: " + e);
+              });
+
+
+            });
+            celda_id_informe.append(icono);
+          }
+
+
+
+
+
+
+
+
+          if(i.Entidad.Estado == 'Sin Carga'){
+            celda_cant_personas.addClass("ent_sin_carga");
+            celda_estado.addClass("ent_sin_carga");
+
+          }else if(i.Entidad.Estado == 'En Proceso') {
+            celda_cant_personas.addClass("ent_en_proceso");
+            celda_estado.addClass("ent_en_proceso");
+            celda_incluir_en_informe.addClass("ent_en_proceso");
+          }
+
+
+
+
+
+
+          fila.addClass("pt_fila_informes_participacion_detalle_mensual");
+          $("#pt_tabla_informes_participacion_detalle_mensual").append(fila);
         });
-
+      })
+      .onError(function (e) {
+        console.error("error al obtener estado de informes de participacion detalle: " + e);
+      });
 
   }
 
