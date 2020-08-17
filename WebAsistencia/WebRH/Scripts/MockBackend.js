@@ -87,9 +87,9 @@ var Backend = {
     PT_Get_Estado_Informes_Participacion_Por_Periodo(usuario){
       return this.ReturnAsync([
         { Entidad: {Anio: 2020, Mes: 1},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
-        { Entidad: {Anio: 2020, Mes: 2},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
-        { Entidad: {Anio: 2020, Mes: 3},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
-        { Entidad: {Anio: 2020, Mes: 4},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
+        { Entidad: {Anio: 2020, Mes: 2},Ent_SinCarga: 0, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 0, Partic_EnProceso: 0, Partic_ConInforme: 0},
+        { Entidad: {Anio: 2020, Mes: 3},Ent_SinCarga: 1, Ent_EnProceso:0,  Ent_ConInforme: 2, Partic_SinCarga: 1, Partic_EnProceso: 0, Partic_ConInforme: 0},
+        { Entidad: {Anio: 2020, Mes: 4},Ent_SinCarga: 2, Ent_EnProceso:3,  Ent_ConInforme: 1, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
         { Entidad: {Anio: 2020, Mes: 5},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
         { Entidad: {Anio: 2020, Mes: 6},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
         { Entidad: {Anio: 2020, Mes: 7},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
@@ -99,7 +99,6 @@ var Backend = {
         { Entidad: {Anio: 2020, Mes: 11},Ent_SinCarga: 1, Ent_EnProceso:3,  Ent_ConInforme: 2, Partic_SinCarga: 2, Partic_EnProceso: 0, Partic_ConInforme: 0},
       ]);
     },
-
 
 
 

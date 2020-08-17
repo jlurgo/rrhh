@@ -234,3 +234,11 @@
   background-color: #e6e6e6;
   color: transparent;
 }
+
+.ent_sin_carga{
+  background-color: #ff0000;
+}
+
+.ent_en_proceso{
+  background-color: #ffff00;
+}

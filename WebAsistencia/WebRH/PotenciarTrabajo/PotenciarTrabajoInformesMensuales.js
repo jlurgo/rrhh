@@ -59,8 +59,18 @@ class TablaInformesParticipacion extends TablaPT{
           fila.append(celda);
 
 
-          this.agregarCeldaTextoAFila(fila, i.Ent_SinCarga);
-          this.agregarCeldaTextoAFila(fila, i.Ent_EnProceso);
+          var ent_sin_carga = this.agregarCeldaTextoAFila(fila, i.Ent_SinCarga);
+          if(i.Ent_SinCarga > 0){
+            ent_sin_carga.addClass("ent_sin_carga");
+          }
+
+          var ent_en_proceso = this.agregarCeldaTextoAFila(fila, i.Ent_EnProceso);
+          if(i.Ent_EnProceso > 0){
+            ent_en_proceso.addClass("ent_en_proceso");
+          }
+
+
+
           this.agregarCeldaTextoAFila(fila, i.Ent_ConInforme);
           this.agregarCeldaTextoAFila(fila, i.Partic_SinCarga);
           this.agregarCeldaTextoAFila(fila, i.Partic_EnProceso);
@@ -151,4 +161,10 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
 
 
   }
+
+
+
+
+
+
 }
