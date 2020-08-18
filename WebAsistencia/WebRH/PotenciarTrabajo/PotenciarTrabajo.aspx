@@ -164,15 +164,18 @@
                   <div id="pt_contenedor_tabla_informes_participacion_detalle_mensual" class="pt_contenedor_tabla">
                     <table id="pt_tabla_informes_participacion_detalle_mensual" class="pt_tabla">
                       <tr id="pt_titulos_tabla_informes_participacion_detalle_mensual" class="pt_fila_titulo_tabla" >
+                        <!-- <th > Entidad </th> -->
                         <th > Grupo de Trabajo </th>
                         <th > Personas </th>
                         <th > Estado </th>
-                        <!-- <th > Incluir en Informe </th> -->
+                        <th > Incluir en Informe </th>
                         <th > N° de Informe </th>
                       </tr>
                     </table>
                   </div>
-                  <div id="pt_controles_inferiores"></div>
+                  <div id="pt_controles_inferiores_detalle_mensual">
+                    <button id="pt_generar_informe_participacion" type="button">Generar Informe Mensual</button>
+                  </div>
                   <div class="pt_nota_pie_table">
                     1, FILAS “Sin carga”= en color ROJO y guiones en las dos últimas columnas (como
                     “no corresponde dato”)
