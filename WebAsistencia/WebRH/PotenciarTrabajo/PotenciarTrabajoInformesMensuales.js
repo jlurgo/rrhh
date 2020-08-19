@@ -209,7 +209,7 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
             icono.click(() => {
               var fila = icono.parent().parent();
 
-              Backend.PT_Get_Informe_Participacion(e_informes.Entidad.Id_Informe)
+              Backend.PT_Get_Generar_Informe_Participacion(e_informes.Entidad.Id_Informe)
               .onSuccess((pdf_string) => {
 
 
