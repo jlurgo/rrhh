@@ -136,25 +136,17 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
 
         $("#pt_tabla_informes_participacion_detalle_mensual").find(".pt_fila_informes_participacion_detalle_mensual").remove();
 
-        _.forEach(informes_participacion, (i) => {
+        _.forEach(informes_participacion, (e_informes) => {
           var fila = $("<tr>");
 
 
-
-          fila.attr("Id_Entidad", i.Entidad.Id_Entidad);
-          fila.attr("Id_Informe", i.Entidad.Id_Informe);
-
-
-
-
-
           // Grupo de Trabajo
-          var celda_nombre_entidad = this.agregarCeldaTextoAFila(fila, i.Entidad.Nombre_Entidad);
+          var celda_nombre_entidad = this.agregarCeldaTextoAFila(fila, e_informes.Entidad.Nombre_Entidad);
 
 
 
           // Personas
-          var celda_cant_personas = this.agregarCeldaTextoAFila(fila, i.Cant_Personas);
+          var celda_cant_personas = this.agregarCeldaTextoAFila(fila, e_informes.Cant_Personas);
           // var icono_lupa = $("<img>");
           // icono_lupa.attr("src", "IconoLupa.png");
           // icono_lupa.addClass("pt_icono_celda");
@@ -168,7 +160,7 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
 
 
           // Estado
-          var celda_estado = this.agregarCeldaTextoAFila(fila, i.Entidad.Estado);
+          var celda_estado = this.agregarCeldaTextoAFila(fila, e_informes.Entidad.Estado);
 
 
 
@@ -179,18 +171,16 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
           var celda_incluir_en_informe = this.agregarCeldaTextoAFila(fila, "");
 
 
-          if(i.Entidad.Estado == 'En Proceso') {
+          if(e_informes.Entidad.Estado == 'En Proceso') {
 
             var checkbox = $("<input type='checkbox'/>");
             checkbox.click(() => {
-              var fila = checkbox.parent().parent();
-
               if(checkbox.prop('checked')== true){
-                self.lista_generar_informe.push(fila.attr("Id_Entidad"));
+                self.lista_generar_informe.push(e_informes.Entidad.Id_Cabecera);
               }else{
 
                 for (var i = 0; i < self.lista_generar_informe.length; i++) {
-                  if(fila.attr("Id_Entidad") == self.lista_generar_informe[i]){
+                  if(e_informes.Entidad.Id_Cabecera == self.lista_generar_informe[i]){
                     self.lista_generar_informe.splice(i,1);
                   }
                 }
@@ -210,16 +200,16 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
 
 
           // N° de Informe
-          var celda_id_informe = this.agregarCeldaTextoAFila(fila, i.Entidad.Id_Informe);
+          var celda_id_informe = this.agregarCeldaTextoAFila(fila, e_informes.Entidad.Id_Informe);
 
-          if(i.Entidad.Estado == 'Con Informe') {
+          if(e_informes.Entidad.Estado == 'Con Informe') {
             var icono = $("<img>");
             icono.attr("src", "IconoDownload.png");
             icono.addClass("pt_icono_celda");
             icono.click(() => {
               var fila = icono.parent().parent();
 
-              Backend.PT_Get_Informe_Participacion(fila.attr("Id_Informe"))
+              Backend.PT_Get_Informe_Participacion(e_informes.Entidad.Id_Informe)
               .onSuccess((pdf_string) => {
 
 
@@ -228,7 +218,7 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
 
                 a.href = 'data:application/pdf;base64,' + pdf_string;
 
-                a.download = "Informe_Participacion_Nro_" + fila.attr("Id_Informe") + ".pdf";
+                a.download = "Informe_Participacion_Nro_" + e_informes.Entidad.Id_Informe + ".pdf";
 
 
                 // Append anchor to body.
@@ -257,11 +247,11 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
 
 
 
-          if(i.Entidad.Estado == 'Sin Carga'){
+          if(e_informes.Entidad.Estado == 'Sin Carga'){
             celda_cant_personas.addClass("ent_sin_carga");
             celda_estado.addClass("ent_sin_carga");
 
-          }else if(i.Entidad.Estado == 'En Proceso') {
+          }else if(e_informes.Entidad.Estado == 'En Proceso') {
             celda_cant_personas.addClass("ent_en_proceso");
             celda_estado.addClass("ent_en_proceso");
             celda_incluir_en_informe.addClass("ent_en_proceso");

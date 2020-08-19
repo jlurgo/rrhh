@@ -104,14 +104,14 @@ var Backend = {
 
     PT_Get_Estado_Informes_Participacion_Por_PeriodoyEntidad(anio, mes, usuario){
       return this.ReturnAsync([
-        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:1, Nombre_Entidad: 'Nombre entidad 1' + mes, Estado:'Sin Carga', Id_Informe:'', Id_Cabecera:20}, Cant_Personas:30},
-        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:2, Nombre_Entidad: 'Nombre entidad 2' + mes, Estado:'Sin Carga', Id_Informe:'', Id_Cabecera:20}, Cant_Personas:20},
-        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:3, Nombre_Entidad: 'Otro nombre entidad 3' + mes, Estado:'En Proceso', Id_Informe:'', Id_Cabecera:20}, Cant_Personas:30},
-        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:4, Nombre_Entidad: 'Nombre entidad 4' + mes, Estado:'En Proceso', Id_Informe:'', Id_Cabecera:20}, Cant_Personas:600},
-        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:5, Nombre_Entidad: 'Nombre entidad 5' + mes, Estado:'En Proceso', Id_Informe:'', Id_Cabecera:20}, Cant_Personas:30},
-        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:6, Nombre_Entidad: 'Nombre entidad 6' + mes, Estado:'Con Informe', Id_Informe:121, Id_Cabecera:20}, Cant_Personas:30},
-        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:7, Nombre_Entidad: 'Nombre entidad 7' + mes, Estado:'En Proceso', Id_Informe:'', Id_Cabecera:20}, Cant_Personas:30},
-        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:8, Nombre_Entidad: 'Nombre entidad 8' + mes, Estado:'Con Informe', Id_Informe:123, Id_Cabecera:20}, Cant_Personas:30},
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:1, Nombre_Entidad: 'Nombre entidad 1' + mes, Estado:'Sin Carga', Id_Informe:'', Id_Cabecera:11}, Cant_Personas:30},
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:2, Nombre_Entidad: 'Nombre entidad 2' + mes, Estado:'Sin Carga', Id_Informe:'', Id_Cabecera:12}, Cant_Personas:20},
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:3, Nombre_Entidad: 'Otro nombre entidad 3' + mes, Estado:'En Proceso', Id_Informe:'', Id_Cabecera:13}, Cant_Personas:30},
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:4, Nombre_Entidad: 'Nombre entidad 4' + mes, Estado:'En Proceso', Id_Informe:'', Id_Cabecera:14}, Cant_Personas:600},
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:5, Nombre_Entidad: 'Nombre entidad 5' + mes, Estado:'En Proceso', Id_Informe:'', Id_Cabecera:15}, Cant_Personas:30},
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:6, Nombre_Entidad: 'Nombre entidad 6' + mes, Estado:'Con Informe', Id_Informe:121, Id_Cabecera:16}, Cant_Personas:30},
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:7, Nombre_Entidad: 'Nombre entidad 7' + mes, Estado:'En Proceso', Id_Informe:'', Id_Cabecera:17}, Cant_Personas:30},
+        { Entidad: {Anio: anio, Mes: mes, Id_Entidad:8, Nombre_Entidad: 'Nombre entidad 8' + mes, Estado:'Con Informe', Id_Informe:123, Id_Cabecera:18}, Cant_Personas:30},
       ]);
     },
 
