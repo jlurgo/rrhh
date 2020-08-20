@@ -7473,85 +7473,313 @@ public class WSViaticos : System.Web.Services.WebService
 
 
     [WebMethod]
-    public void PT_Get_Generar_Informe (int idInforme, Usuario usuario)
+    public string PT_Get_Generar_Informe_Participacion(int idInforme, Usuario usuario)
     {
-        //var RepositorioPT = new RepositorioPotenciarTrabajo();
+        //List<PT_Informe> pdf = new List<PT_Informe>();
 
-        //List<PT_Informe> PDF =  RepositorioPT.PT_Get_Generar_Informe(idInforme, usuario);
+        var RepositorioPT = new RepositorioPotenciarTrabajo();
+        List<PT_Informe> lista_Informe =  RepositorioPT.PT_Get_Generar_Informe_Participacion(idInforme, usuario);
+        
+        string pdf_base64 = PDF_Generar_Informe_Participacion(lista_Informe);
 
-        List<PT_Informe> pdf = new List<PT_Informe>();
-
-        PDF_Generar_Informe(pdf);
-
+        return pdf_base64;
     }
 
     
-    private void PDF_Generar_Informe(List<PT_Informe> lista)
+    private string PDF_Generar_Informe_Participacion(List<PT_Informe> lista_informe_pdf)
     {
         Document doc = new Document(PageSize.A4);
-        // Indicamos donde vamos a guardar el documento
-        PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(@"C:\German\PotenciarTrabajo.pdf", FileMode.Create));
-
-        // Le colocamos el título y el autor
-        // **Nota: Esto no será visible en el documento
+        MemoryStream ms = new MemoryStream();
+        PdfWriter writer = PdfWriter.GetInstance(doc, ms);
         doc.AddTitle("Potenciar Trabajo");
         doc.AddCreator("Ministerio de Desarrollo Social");
-
-        // Abrimos el archivo
+        
         doc.Open();
+        iTextSharp.text.Font _FontTitulo        = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 16, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+        iTextSharp.text.Font _FontTexto         = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+        iTextSharp.text.Font _FontStandar       = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+        iTextSharp.text.Font _FontStandarBold   = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 10, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+        iTextSharp.text.Font _FontStandarGrilla = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+        iTextSharp.text.Font _FontStandarGrillaBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
 
 
-        iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+        //-------------------------- Escribimos el encabezamiento en el documento
+        PdfPCell Celda_Vacia;
+        Celda_Vacia = new PdfPCell
+        {
+            BorderWidth = 0
+        };
 
-        // Escribimos el encabezamiento en el documento
-        doc.Add(new Paragraph("Programa PotenciAR Trabajo"));
+        //---------- Linea: Titulos
+        PdfPTable Tabla_Titulo = new PdfPTable(4)
+        {
+            WidthPercentage = 100
+        };
+
+            PdfPCell celda_Titulo = new PdfPCell(new Phrase("Programa PotenciAR Trabajo", _FontTitulo))
+            {
+                BorderWidth = 0,
+                Colspan = 3,
+                HorizontalAlignment = Element.ALIGN_CENTER
+            };
+        
+            Tabla_Titulo.AddCell(celda_Titulo);
+            Tabla_Titulo.AddCell(Celda_Vacia);
+
+        doc.Add(Tabla_Titulo);
+        //---------- FIN Linea: Titulos
+
+        //---------- Linea: SubTitulos
+        PdfPTable Tabla_SubTitulo = new PdfPTable(4)
+        {
+            WidthPercentage = 100
+        };
+        
+            PdfPCell celda_SubTitulo = new PdfPCell(new Phrase("Informe Mensual de Participacion", _FontTitulo))
+            {
+                BorderWidth = 0,
+                Colspan = 3,
+                HorizontalAlignment = Element.ALIGN_CENTER
+            };
+        
+            Tabla_SubTitulo.AddCell(celda_SubTitulo);
+            Tabla_SubTitulo.AddCell(Celda_Vacia);
+
+        doc.Add(Tabla_SubTitulo);
+        //---------- FIN: Linea: SubTitulos
+
         doc.Add(Chunk.NEWLINE);
-        doc.Add(new Paragraph("Informe Mensual de Participacion"));
         doc.Add(Chunk.NEWLINE);
 
-        // Creamos una tabla que contendrá el nombre, apellido y país
-        // de nuestros visitante.
-        PdfPTable tblPrueba = new PdfPTable(3);
-        tblPrueba.WidthPercentage = 100;
+        //---------- Linea: MES y Nro Informe
+        PdfPTable Tabla_Mes_Informe = new PdfPTable(4)
+        {
+            WidthPercentage = 100
+        };
 
-        // Configuramos el título de las columnas de la tabla
-        PdfPCell clNombre = new PdfPCell(new Phrase("Nombre", _standardFont));
-        clNombre.BorderWidth = 0;
-        clNombre.BorderWidthBottom = 0.75f;
+            PdfPCell Celda_Mes = new PdfPCell(new Phrase("Mes: " + lista_informe_pdf[0].Entidad.Nombre_Mes, _FontStandarBold))
+            {
+                BorderWidth = 0
+            };
 
-        PdfPCell clApellido = new PdfPCell(new Phrase("Apellido", _standardFont));
-        clApellido.BorderWidth = 0;
-        clApellido.BorderWidthBottom = 0.75f;
+            PdfPCell celda_Informe = new PdfPCell(new Phrase("Informe Nro: " + lista_informe_pdf[0].Entidad.Id_Informe, _FontStandarBold))
+            {
+                BorderWidth = 0
+            };
 
-        PdfPCell clPais = new PdfPCell(new Phrase("Observacion", _standardFont));
-        clPais.BorderWidth = 0;
-        clPais.BorderWidthBottom = 0.75f;
+            Tabla_Mes_Informe.AddCell(Celda_Mes);
+            Tabla_Mes_Informe.AddCell(Celda_Vacia);
+            Tabla_Mes_Informe.AddCell(Celda_Vacia);
+            Tabla_Mes_Informe.AddCell(celda_Informe);
 
-        // Añadimos las celdas a la tabla
-        tblPrueba.AddCell(clNombre);
-        tblPrueba.AddCell(clApellido);
-        tblPrueba.AddCell(clPais);
+        doc.Add(Tabla_Mes_Informe);
+        //---------- FIN: MES y Nro Informe
 
-        // Llenamos la tabla con información
-        clNombre = new PdfPCell(new Phrase("PARA", _standardFont));
-        clNombre.BorderWidth = 0;
+        doc.Add(Chunk.NEWLINE);
+        doc.Add(Chunk.NEWLINE);
 
-        clApellido = new PdfPCell(new Phrase("TU MAMA", _standardFont));
-        clApellido.BorderWidth = 0;
+        //---------- Linea: Texto y Generado por.
+        PdfPTable Tabla_Texto_Generado = new PdfPTable(4)
+        {
+            WidthPercentage = 100
+        };
 
-        clPais = new PdfPCell(new Phrase("JAJAJAJAJ", _standardFont));
-        clPais.BorderWidth = 0;
+            //PdfPCell Celda_Texto = new PdfPCell(new Phrase("Atención: La carga de Participación para Participantes en Estado INCOMPATIBLE no generan ningun tipo de derecho a cobro por el período y su consideración está completamente supeditada a la evaluación del PROGRAMA sobre la documentación que oportunamente se presente.", _FontTexto))
+            PdfPCell Celda_Texto = new PdfPCell(new Phrase("Atencion: La carga de Participacion para Participantes en Estado INCOMPATIBLE no generan ningun tipo de derecho a cobro por el periodo y su consideracion esta completamente supeditada a la evaluacion del PROGRAMA sobre la documentacion que oportunamente se presente.", _FontTexto))
+            {
+                BorderWidth = 0,
+                Colspan = 3
+            };
 
-        // Añadimos las celdas a la tabla
-        tblPrueba.AddCell(clNombre);
-        tblPrueba.AddCell(clApellido);
-        tblPrueba.AddCell(clPais);
+            PdfPCell Celda_Generado = new PdfPCell(new Phrase("Generado por: " + lista_informe_pdf[0].Entidad.Usuario_Informe + " el dia " + lista_informe_pdf[0].Entidad.Fecha_Informe, _FontStandarBold))
+            {
+                BorderWidth = 0
+            };
+
+            Tabla_Texto_Generado.AddCell(Celda_Texto);
+            Tabla_Texto_Generado.AddCell(Celda_Generado);
+
+        doc.Add(Tabla_Texto_Generado);
+        //---------- FIN: Texto y Generado por.
+
+        doc.Add(Chunk.NEWLINE);
+        doc.Add(Chunk.NEWLINE);
+
+        //--------------------------------------- ARMADO DE GRILLA
+
+        string Grupo_Anterior = "";
+        PdfPTable Tabla_Entidad = new PdfPTable(5)
+        {
+            WidthPercentage = 100
+        };
+        PdfPTable Tabla_Datos = new PdfPTable(9)
+        {
+            WidthPercentage = 100
+        };
+
+        foreach (var ITEM_DATO in lista_informe_pdf)
+        {
+            if (Grupo_Anterior != ITEM_DATO.Entidad.Id_Entidad.ToString())
+            {
+                Grupo_Anterior = ITEM_DATO.Entidad.Id_Entidad.ToString();
 
 
-        doc.Add(tblPrueba);
+                // Titulo del Grupo de trabajo                
+                PdfPCell Celda_Entidad = new PdfPCell(new Phrase("Grupo de Trabajo", _FontStandarGrillaBold))
+                {
+                    BorderWidth = 0
+                };
+
+                PdfPCell Celda_Nombre_Entidad = new PdfPCell(new Phrase(ITEM_DATO.Entidad.Nombre_Entidad, _FontStandarGrillaBold))
+                {
+                    BorderWidth = 0,
+                    Colspan = 4
+                };
+
+                Tabla_Entidad.AddCell(Celda_Entidad);
+                Tabla_Entidad.AddCell(Celda_Nombre_Entidad);
+
+                doc.Add(Tabla_Entidad);
+
+
+                // Creamos una tabla que contendrá el CUIL, apellido_nombre, Estado, Semana1, Semana2, Semana3, Semana4, Semana5, Observacion                
+                //títulos de las columnas de la tabla
+                PdfPCell Celda_Titulo_Grilla;
+                string Nomre_Celda = "";
+                for (int i = 1; i < 10; i++)
+                {
+                    switch (i)
+                    {
+                        case 1:
+                            Nomre_Celda = "CUIL";
+                            break;
+                        case 2:
+                            Nomre_Celda = "Apellido y Nombre";
+                            break;
+                        case 3:
+                            Nomre_Celda = "Estado";
+                            break;
+                        case 4:
+                            Nomre_Celda = "Semana1";
+                            break;
+                        case 5:
+                            Nomre_Celda = "Semana2";
+                            break;
+                        case 6:
+                            Nomre_Celda = "Semana3";
+                            break;
+                        case 7:
+                            Nomre_Celda = "Semana4";
+                            break;
+                        case 8:
+                            Nomre_Celda = "Semana5";
+                            break;
+                        case 9:
+                            Nomre_Celda = "Observacion";
+                            break;
+                        default:
+                            Nomre_Celda = "ERROR";
+                            break;
+                    }
+
+                    Celda_Titulo_Grilla = new PdfPCell(new Phrase(Nomre_Celda, _FontStandarGrillaBold))
+                    {
+                        BorderWidth = 0,
+                        BorderWidthBottom = 0.75f
+                    };
+
+                    Tabla_Datos.AddCell(Celda_Titulo_Grilla);
+
+                }
+            }
+                    //INSERTO DATOS EN LA GRILLA
+                    PdfPCell Celda_Dato_CUIL = new PdfPCell(new Phrase(ITEM_DATO.Persona.CUIL, _FontStandarGrilla))
+                    {
+                        BorderWidth = 0,
+                        BorderWidthBottom = 0.75f
+                    };
+                    PdfPCell Celda_Dato_NyA = new PdfPCell(new Phrase(ITEM_DATO.Persona.Nombre_Apellido, _FontStandarGrilla))
+                    {
+                        BorderWidth = 0,
+                        BorderWidthBottom = 0.75f
+                    };
+                    PdfPCell Celda_Dato_Estado = new PdfPCell(new Phrase(ITEM_DATO.Persona.Nombre_Estado, _FontStandarGrilla))
+                    {
+                        BorderWidth = 0,
+                        BorderWidthBottom = 0.75f
+                    };
+                    PdfPCell Celda_Dato_Semana1 = new PdfPCell(new Phrase(ITEM_DATO.Participacion.Dato_Part_Semana1, _FontStandarGrilla))
+                    {
+                        BorderWidth = 0,
+                        BorderWidthBottom = 0.75f
+                    };
+                    PdfPCell Celda_Dato_Semana2 = new PdfPCell(new Phrase(ITEM_DATO.Participacion.Dato_Part_Semana2, _FontStandarGrilla))
+                    {
+                        BorderWidth = 0,
+                        BorderWidthBottom = 0.75f
+                    };
+                    PdfPCell Celda_Dato_Semana3 = new PdfPCell(new Phrase(ITEM_DATO.Participacion.Dato_Part_Semana3, _FontStandarGrilla))
+                    {
+                        BorderWidth = 0,
+                        BorderWidthBottom = 0.75f
+                    };
+                    PdfPCell Celda_Dato_Semana4 = new PdfPCell(new Phrase(ITEM_DATO.Participacion.Dato_Part_Semana4, _FontStandarGrilla))
+                    {
+                        BorderWidth = 0,
+                        BorderWidthBottom = 0.75f
+                    };
+                    PdfPCell Celda_Dato_Semana5 = new PdfPCell(new Phrase(ITEM_DATO.Participacion.Dato_Part_Semana5, _FontStandarGrilla))
+                    {
+                        BorderWidth = 0,
+                        BorderWidthBottom = 0.75f
+                    };
+                    PdfPCell Celda_Dato_Observacion = new PdfPCell(new Phrase(ITEM_DATO.Participacion.Observacion, _FontStandarGrilla))
+                    {
+                        BorderWidth = 0,
+                        BorderWidthBottom = 0.75f
+                    };
+
+
+                    Tabla_Datos.AddCell(Celda_Dato_CUIL);
+                    Tabla_Datos.AddCell(Celda_Dato_NyA);
+                    Tabla_Datos.AddCell(Celda_Dato_Estado);
+                    Tabla_Datos.AddCell(Celda_Dato_Semana1);
+                    Tabla_Datos.AddCell(Celda_Dato_Semana2);
+                    Tabla_Datos.AddCell(Celda_Dato_Semana3);
+                    Tabla_Datos.AddCell(Celda_Dato_Semana4);
+                    Tabla_Datos.AddCell(Celda_Dato_Semana5);
+                    Tabla_Datos.AddCell(Celda_Dato_Observacion);
+    
+        }
+
+        doc.Add(Tabla_Datos);
+
+
+
+        //// Llenamos la tabla con información
+        //clNombre = new PdfPCell(new Phrase("PARA", _FontStandar));
+        //clNombre.BorderWidth = 0;
+
+        //clApellido = new PdfPCell(new Phrase("TU", _FontStandar));
+        //clApellido.BorderWidth = 0;
+
+        //clPais = new PdfPCell(new Phrase("MAMA", _FontStandar));
+        //clPais.BorderWidth = 0;
+
+        //// Añadimos las celdas a la tabla
+        //tblPrueba.AddCell(clNombre);
+        //tblPrueba.AddCell(clApellido);
+        //tblPrueba.AddCell(clPais);
+
+        //doc.Add(tblPrueba);
+
 
         doc.Close();
         writer.Close();
+        ms.Close();
+
+        byte[] bytes = ms.ToArray();
+        return Convert.ToBase64String(bytes);
 
     }
 
