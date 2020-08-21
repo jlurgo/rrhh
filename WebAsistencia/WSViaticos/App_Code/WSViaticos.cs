@@ -7499,11 +7499,13 @@ public class WSViaticos : System.Web.Services.WebService
         iTextSharp.text.Font _FontTexto         = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
         iTextSharp.text.Font _FontStandar       = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
         iTextSharp.text.Font _FontStandarBold   = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 10, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
-        iTextSharp.text.Font _FontStandarGrilla = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+
         iTextSharp.text.Font _FontStandarGrillaBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+        iTextSharp.text.Font _FontStandarGrillaTituloBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+        iTextSharp.text.Font _FontStandarGrilla = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+        
 
-
-        //-------------------------- Escribimos el encabezamiento en el documento
+        //-------------------------- Escribimos el encabezamiento en el documento 
         PdfPCell Celda_Vacia;
         Celda_Vacia = new PdfPCell
         {
@@ -7547,10 +7549,9 @@ public class WSViaticos : System.Web.Services.WebService
 
         doc.Add(Tabla_SubTitulo);
         //---------- FIN: Linea: SubTitulos
-
-        doc.Add(Chunk.NEWLINE);
-        doc.Add(Chunk.NEWLINE);
-
+        
+        doc.Add(new Phrase("\n"));
+        
         //---------- Linea: MES y Nro Informe
         PdfPTable Tabla_Mes_Informe = new PdfPTable(4)
         {
@@ -7574,10 +7575,7 @@ public class WSViaticos : System.Web.Services.WebService
 
         doc.Add(Tabla_Mes_Informe);
         //---------- FIN: MES y Nro Informe
-
-        doc.Add(Chunk.NEWLINE);
-        doc.Add(Chunk.NEWLINE);
-
+        
         //---------- Linea: Texto y Generado por.
         PdfPTable Tabla_Texto_Generado = new PdfPTable(4)
         {
@@ -7603,27 +7601,50 @@ public class WSViaticos : System.Web.Services.WebService
         //---------- FIN: Texto y Generado por.
 
         doc.Add(Chunk.NEWLINE);
-        doc.Add(Chunk.NEWLINE);
 
         //--------------------------------------- ARMADO DE GRILLA
 
-        string Grupo_Anterior = "";
-        PdfPTable Tabla_Entidad = new PdfPTable(5)
+        int Grupo_Anterior = 0;
+        PdfPTable Tabla_Entidad;
+        PdfPTable Tabla_Datos;
+
+        Tabla_Entidad = new PdfPTable(5)
         {
             WidthPercentage = 100
         };
-        PdfPTable Tabla_Datos = new PdfPTable(9)
+
+        Tabla_Datos = new PdfPTable(9)
         {
             WidthPercentage = 100
         };
 
         foreach (var ITEM_DATO in lista_informe_pdf)
         {
-            if (Grupo_Anterior != ITEM_DATO.Entidad.Id_Entidad.ToString())
+
+            if (Grupo_Anterior != ITEM_DATO.Entidad.Id_Entidad)
             {
-                Grupo_Anterior = ITEM_DATO.Entidad.Id_Entidad.ToString();
+                if (Grupo_Anterior != 0)
+                {
+                    doc.Add(Tabla_Datos);
+
+                    doc.Add(Chunk.NEWLINE);
+
+                    Tabla_Entidad = new PdfPTable(5)
+                    {
+                        WidthPercentage = 100
+                    };
+
+                    Tabla_Datos = new PdfPTable(9)
+                    {
+                        WidthPercentage = 100
+                    };
+
+                }
 
 
+                Grupo_Anterior = ITEM_DATO.Entidad.Id_Entidad;
+                
+                
                 // Titulo del Grupo de trabajo                
                 PdfPCell Celda_Entidad = new PdfPCell(new Phrase("Grupo de Trabajo", _FontStandarGrillaBold))
                 {
@@ -7682,11 +7703,12 @@ public class WSViaticos : System.Web.Services.WebService
                             break;
                     }
 
-                    Celda_Titulo_Grilla = new PdfPCell(new Phrase(Nomre_Celda, _FontStandarGrillaBold))
+                    Celda_Titulo_Grilla = new PdfPCell(new Phrase(Nomre_Celda, _FontStandarGrillaTituloBold))
                     {
                         BorderWidth = 0,
-                        BorderWidthBottom = 0.75f
-                    };
+                        BorderWidthBottom = 0.75f,
+                        BackgroundColor = new BaseColor(46, 134, 193)
+                };
 
                     Tabla_Datos.AddCell(Celda_Titulo_Grilla);
 
@@ -7696,47 +7718,56 @@ public class WSViaticos : System.Web.Services.WebService
                     PdfPCell Celda_Dato_CUIL = new PdfPCell(new Phrase(ITEM_DATO.Persona.CUIL, _FontStandarGrilla))
                     {
                         BorderWidth = 0,
-                        BorderWidthBottom = 0.75f
-                    };
+                        BorderWidthBottom = 0.75f,                        
+                        BackgroundColor = new BaseColor(174, 214, 241)                        
+                    };                      
                     PdfPCell Celda_Dato_NyA = new PdfPCell(new Phrase(ITEM_DATO.Persona.Nombre_Apellido, _FontStandarGrilla))
                     {
                         BorderWidth = 0,
-                        BorderWidthBottom = 0.75f
+                        BorderWidthBottom = 0.75f,
+                        BackgroundColor = new BaseColor(174, 214, 241)
                     };
                     PdfPCell Celda_Dato_Estado = new PdfPCell(new Phrase(ITEM_DATO.Persona.Nombre_Estado, _FontStandarGrilla))
                     {
                         BorderWidth = 0,
-                        BorderWidthBottom = 0.75f
+                        BorderWidthBottom = 0.75f,
+                        BackgroundColor = new BaseColor(174, 214, 241)
                     };
                     PdfPCell Celda_Dato_Semana1 = new PdfPCell(new Phrase(ITEM_DATO.Participacion.Dato_Part_Semana1, _FontStandarGrilla))
                     {
                         BorderWidth = 0,
-                        BorderWidthBottom = 0.75f
+                        BorderWidthBottom = 0.75f,
+                        BackgroundColor = new BaseColor(174, 214, 241)
                     };
                     PdfPCell Celda_Dato_Semana2 = new PdfPCell(new Phrase(ITEM_DATO.Participacion.Dato_Part_Semana2, _FontStandarGrilla))
                     {
                         BorderWidth = 0,
-                        BorderWidthBottom = 0.75f
+                        BorderWidthBottom = 0.75f,
+                        BackgroundColor = new BaseColor(174, 214, 241)
                     };
                     PdfPCell Celda_Dato_Semana3 = new PdfPCell(new Phrase(ITEM_DATO.Participacion.Dato_Part_Semana3, _FontStandarGrilla))
                     {
                         BorderWidth = 0,
-                        BorderWidthBottom = 0.75f
+                        BorderWidthBottom = 0.75f,
+                        BackgroundColor = new BaseColor(174, 214, 241)
                     };
                     PdfPCell Celda_Dato_Semana4 = new PdfPCell(new Phrase(ITEM_DATO.Participacion.Dato_Part_Semana4, _FontStandarGrilla))
                     {
                         BorderWidth = 0,
-                        BorderWidthBottom = 0.75f
+                        BorderWidthBottom = 0.75f,
+                        BackgroundColor = new BaseColor(174, 214, 241)
                     };
                     PdfPCell Celda_Dato_Semana5 = new PdfPCell(new Phrase(ITEM_DATO.Participacion.Dato_Part_Semana5, _FontStandarGrilla))
                     {
                         BorderWidth = 0,
-                        BorderWidthBottom = 0.75f
+                        BorderWidthBottom = 0.75f,
+                        BackgroundColor = new BaseColor(174, 214, 241)
                     };
                     PdfPCell Celda_Dato_Observacion = new PdfPCell(new Phrase(ITEM_DATO.Participacion.Observacion, _FontStandarGrilla))
                     {
                         BorderWidth = 0,
-                        BorderWidthBottom = 0.75f
+                        BorderWidthBottom = 0.75f,
+                        BackgroundColor = new BaseColor(174, 214, 241)
                     };
 
 
@@ -7755,25 +7786,7 @@ public class WSViaticos : System.Web.Services.WebService
         doc.Add(Tabla_Datos);
 
 
-
-        //// Llenamos la tabla con información
-        //clNombre = new PdfPCell(new Phrase("PARA", _FontStandar));
-        //clNombre.BorderWidth = 0;
-
-        //clApellido = new PdfPCell(new Phrase("TU", _FontStandar));
-        //clApellido.BorderWidth = 0;
-
-        //clPais = new PdfPCell(new Phrase("MAMA", _FontStandar));
-        //clPais.BorderWidth = 0;
-
-        //// Añadimos las celdas a la tabla
-        //tblPrueba.AddCell(clNombre);
-        //tblPrueba.AddCell(clApellido);
-        //tblPrueba.AddCell(clPais);
-
-        //doc.Add(tblPrueba);
-
-
+        
         doc.Close();
         writer.Close();
         ms.Close();
