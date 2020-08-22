@@ -207,13 +207,8 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
             icono.attr("src", "IconoDownload.png");
             icono.addClass("pt_icono_celda");
             icono.click(() => {
-              var fila = icono.parent().parent();
-
               Backend.PT_Get_Generar_Informe_Participacion(e_informes.Entidad.Id_Informe)
               .onSuccess((pdf_string) => {
-
-
-
                 var a = window.document.createElement('a');
 
                 a.href = 'data:application/pdf;base64,' + pdf_string;
