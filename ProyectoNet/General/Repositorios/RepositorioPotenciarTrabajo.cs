@@ -394,7 +394,7 @@ namespace General.Repositorios
 
         }
 
-        public List<PT_Informe> PT_Get_Generar_Informe(int idInforme, Usuario usuario)
+        public List<PT_Informe> PT_Get_Generar_Informe_Participacion(int idInforme, Usuario usuario)
         {
 
             SqlDataReader dr;
@@ -413,6 +413,7 @@ namespace General.Repositorios
                 res.Entidad.Id_Informe = dr.GetInt32(dr.GetOrdinal("Id_Informe"));
                 res.Entidad.Fecha_Informe = dr.GetDateTime(dr.GetOrdinal("Fecha_Informe"));
                 res.Entidad.Usuario_Informe = dr.GetString(dr.GetOrdinal("Usuario_Informe"));
+                res.Entidad.Id_Entidad = dr.GetInt32(dr.GetOrdinal("Id_Entidad"));
                 res.Entidad.Nombre_Entidad = dr.GetString(dr.GetOrdinal("Nombre_Entidad"));
                 res.Entidad.Nombre_Mes = dr.GetString(dr.GetOrdinal("Mes"));
                 res.Entidad.Observacion = dr.GetString(dr.GetOrdinal("Observacion"));
