@@ -244,10 +244,10 @@
   color: transparent;
 }
 
-.ent_sin_carga{
-  background-color: #ff0000;
+.ent_sin_carga {
+    background-color: #FF4E4E;
 }
 
-.ent_en_proceso{
-  background-color: #ffff00;
+.ent_en_proceso {
+    background-color: #FEFB46;
 }
