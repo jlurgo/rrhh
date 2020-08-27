@@ -76,10 +76,25 @@ class TablaParticipacionMensual extends TablaPT{
           this.agregarCeldaTextoAFila(fila, e.Suspendidos);
           this.agregarCeldaTextoAFila(fila, e.Inactivos);
           this.agregarCeldaTextoAFila(fila, e.Activos + e.Activos_Parcial + e.Suspendidos + e.Inactivos);
-          this.agregarCeldaTextoAFila(fila, e.Sin_Carga);
+            
+            var sinCarga = ""
+            if (e.Sin_Carga == 1) {
+                sinCarga = "SI";
+            } else {
+                sinCarga = "NO";
+            }
+            this.agregarCeldaTextoAFila(fila, sinCarga);
 
-          const celda = $("<td>")
-          celda.text(e.En_Proceso);
+            const celda = $("<td>")
+
+            var enProceso = ""
+            if (e.En_Proceso == 1) {
+                enProceso = "SI" ;
+            } else {
+                enProceso = "NO";
+            }
+            celda.text(enProceso);
+
           const icono_lista = $("<img>");
           icono_lista.attr("src", "IconoLista.png");
           icono_lista.addClass("pt_icono_celda");
@@ -91,7 +106,14 @@ class TablaParticipacionMensual extends TablaPT{
           celda.append(icono_lista);
           fila.append(celda);
 
-          this.agregarCeldaTextoAFila(fila, e.Con_Informe);
+            var conInforme=""  
+            if (e.Con_Informe == 1) {
+                conInforme = "SI";
+            } else {
+                conInforme = "NO";
+            }
+            this.agregarCeldaTextoAFila(fila, conInforme);
+
           fila.addClass("pt_fila_participacion_mensual");
           $("#pt_tabla_participacion_mensual").append(fila);
         });

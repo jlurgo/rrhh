@@ -57,20 +57,21 @@
                     <table id="pt_tabla_participacion_mensual" class="pt_tabla">
                       <tr id="pt_titulos_tabla_participacion_mensual"
                         class="pt_fila_titulo_tabla" >
-                        <th rowspan="2"> Grupo de Trabajo</th>
-                        <th colspan="4"> Estados </th>
-                        <th colspan="4"> Carga </th>
+                        <th rowspan="1" style="text-align:center;"> Grupo de Trabajo</th>
+                        <th colspan="5" style="text-align:center;"> Estados </th>
+                        <th colspan="3" style="text-align:center;"> Carga </th>
                       </tr>
                       <tr id="pt_titulos2_tabla_participacion_mensual"
                         class="pt_fila_subtitulo_tabla">
-                        <th> Activos </th>
-                        <th> Suspendidos </th>
-                        <th> Incompatibles </th>
-                        <th> Total </th>
-                        <th> Sin Carga </th>
-                        <th> Parciales </th>
-                        <th> Completos </th>
-                        <th> Con informe </th>
+                        <th style="text-align:center;"> Nombre </th>
+                        <th style="text-align:center;"> Activos </th>
+                        <th style="text-align:center;"> Activos Parcial </th>
+                        <th style="text-align:center;"> Suspendidos </th>
+                        <th style="text-align:center;"> Inactivos </th>
+                        <th style="text-align:center;"> Total </th>
+                        <th style="text-align:center;"> Sin Carga </th>
+                        <th style="text-align:center;"> En Proceso </th> 
+                        <th style="text-align:center;"> Con informe </th>
                       </tr>
                     </table>
                   </div>
