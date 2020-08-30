@@ -8,8 +8,8 @@
     <title>Potenciar Trabajo</title>
     <link href="../Scripts/vex-2.1.1/css/vex.css" rel="stylesheet">
     <link href="../Scripts/vex-2.1.1/css/vex-theme-os.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="PotenciarTrabajo.css" />
     <%= Referencias.Css("../")%>
+    <link rel="stylesheet" type="text/css" href="PotenciarTrabajo.css" />
     <%= Referencias.Javascript("../")%>
 </head>
     <body>
