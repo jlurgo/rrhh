@@ -113,6 +113,11 @@ class TablaParticipacionMensual extends TablaPT{
 class TablaParticipacionSemanal extends TablaPT{
   constructor () {
     super();
+
+    $('#pt_boton_volver_tabla_participacion_mensual').click(() => {
+      $("#pt_boton_carga_participacion").click();
+    });
+
     Backend.PT_Get_Participaciones_Dato()
       .onSuccess((datos) => {
           this.nivelesDeParticipacion = datos;

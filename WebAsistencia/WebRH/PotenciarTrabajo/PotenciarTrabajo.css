@@ -252,3 +252,19 @@
 .ent_en_proceso {
     background-color: #FEFB46;
 }
+
+
+
+
+#pt_boton_volver_tabla_participacion_mensual{
+  text-align: right;
+  position: relative;
+  top:-10px;
+  left: -20px
+}
+
+
+#pt_boton_volver_tabla_participacion_mensual img{
+  cursor: pointer;
+  height: 22px;
+}
