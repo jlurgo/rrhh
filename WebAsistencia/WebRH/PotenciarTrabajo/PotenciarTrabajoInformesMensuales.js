@@ -109,6 +109,7 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
 
       Backend.PT_Upd_Generar_Informe_Participacion(self.lista_generar_informe)
       .onSuccess(function (e) {
+          alertify.success("cambios realizados con éxito");
           self.render(self.anio, self.mes);
       })
       .onError(function (e) {

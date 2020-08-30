@@ -283,6 +283,7 @@ class TablaParticipacionSemanal extends TablaPT{
           Backend.PT_Add_Justificacion(asistencia.Persona.Id_Rol, motivo, desde_anio,
             desde_mes, desde_semana, hasta_anio, hasta_mes, hasta_semana, descripcion, id_entidad)
             .onSuccess((datos) => {
+              alertify.success("cambios realizados con éxito");
               this.render(this.idEntidad, this.periodo);
             })
             .onError(function (e) {
@@ -311,6 +312,7 @@ class TablaParticipacionSemanal extends TablaPT{
         asistencia.Persona.Id_Rol,
         id_dato)
       .onSuccess((datos) => {
+        alertify.success("cambios realizados con éxito");
         this.render(this.idEntidad, this.periodo);
       })
       .onError(function (e) {
@@ -327,6 +329,7 @@ class TablaParticipacionSemanal extends TablaPT{
         asistencia.Persona.Id_Rol,
         observacion)
       .onSuccess((datos) => {
+          alertify.success("cambios realizados con éxito");
           this.render(this.idEntidad, this.periodo);
       })
       .onError(function (e) {
