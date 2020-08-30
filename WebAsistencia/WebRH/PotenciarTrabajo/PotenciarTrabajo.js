@@ -135,6 +135,7 @@ class TablaParticipacionSemanal extends TablaPT{
     // <th>Semana 2</th>
     // <th>Semana 3</th>
     // <th>Semana 4</th>
+    // <th>Promedio</th>
     // <th>observaciones a la participación</th>
 
     $("#pt_estado_semanal #pt_grupo_de_trabajo").text(Nombre_Entidad);
@@ -152,7 +153,9 @@ class TablaParticipacionSemanal extends TablaPT{
     if(periodo.Cant_Semanas == 5) {
       fila_titulos.append($("<th>Semana 5</th>"));
     }
-    fila_titulos.append($("<th>observaciones a la participación</th>"));
+
+    fila_titulos.append($("<th>Promedio</th>"));
+    fila_titulos.append($("<th>Observaciones a la Participación</th>"));
 
     $("#pt_tabla_participacion_semanal").find(".pt_fila_participacion_semanal").remove();
     Backend.PT_Get_Add_Participacion_por_Entidad_Periodo(id_entidad, periodo.Id, periodo.Anio)
@@ -181,6 +184,37 @@ class TablaParticipacionSemanal extends TablaPT{
             this.updateParticipacionSemanalPersona(p, 5, nuevo_valor);
           });
         }
+
+
+
+        var counter = {
+          cant: 0,
+          suma:  0.0
+        };
+
+        var parseSemana = (Part_Semana)=>{
+
+          switch (Part_Semana) {
+            case 1: counter.suma+=100.0; counter.cant++; break;
+            case 2: counter.suma+=50.0; counter.cant++; break;
+            case 3: counter.suma+=0.0; counter.cant++; break;
+            case 4: counter.suma+=100.0; counter.cant++; break;
+            case 5: break;
+            default: counter.suma+=100.0; counter.cant++; break;
+          }
+        };
+
+        parseSemana(p.Part_Semana1);
+        parseSemana(p.Part_Semana2);
+        parseSemana(p.Part_Semana3);
+        parseSemana(p.Part_Semana4);
+        if(periodo.Cant_Semanas == 5) {
+          parseSemana(p.Part_Semana5);
+        }
+
+        var promedio = (counter.suma / counter.cant);
+        this.agregarCeldaTextoAFila(fila, promedio +  "%");
+
         // celda observaciones, tiene un botón para editar
         const celda_obs = this.agregarCeldaTextoAFila(fila, p.Observacion);
         celda_obs.addClass("celda_observacion");
