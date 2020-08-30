@@ -8,8 +8,8 @@
     <title>Potenciar Trabajo</title>
     <link href="../Scripts/vex-2.1.1/css/vex.css" rel="stylesheet">
     <link href="../Scripts/vex-2.1.1/css/vex-theme-os.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="PotenciarTrabajo.css" />
     <%= Referencias.Css("../")%>
+    <link rel="stylesheet" type="text/css" href="PotenciarTrabajo.css" />
     <%= Referencias.Javascript("../")%>
 </head>
     <body>
@@ -57,21 +57,20 @@
                     <table id="pt_tabla_participacion_mensual" class="pt_tabla">
                       <tr id="pt_titulos_tabla_participacion_mensual"
                         class="pt_fila_titulo_tabla" >
-                        <th rowspan="1" style="text-align:center;"> Grupo de Trabajo</th>
-                        <th colspan="5" style="text-align:center;"> Estados </th>
-                        <th colspan="3" style="text-align:center;"> Carga </th>
+                        <th rowspan="2"> Grupo de Trabajo</th>
+                        <th colspan="4"> Estados </th>
+                        <th colspan="4"> Carga </th>
                       </tr>
                       <tr id="pt_titulos2_tabla_participacion_mensual"
                         class="pt_fila_subtitulo_tabla">
-                        <th style="text-align:center;"> Nombre </th>
-                        <th style="text-align:center;"> Activos </th>
-                        <th style="text-align:center;"> Activos Parcial </th>
-                        <th style="text-align:center;"> Suspendidos </th>
-                        <th style="text-align:center;"> Inactivos </th>
-                        <th style="text-align:center;"> Total </th>
-                        <th style="text-align:center;"> Sin Carga </th>
-                        <th style="text-align:center;"> En Proceso </th> 
-                        <th style="text-align:center;"> Con informe </th>
+                        <th> Activos </th>
+                        <th> Suspendidos </th>
+                        <th> Incompatibles </th>
+                        <th> Total </th>
+                        <th> Sin Carga </th>
+                        <th> Parciales </th>
+                        <th> Completos </th>
+                        <th> Con informe </th>
                       </tr>
                     </table>
                   </div>
@@ -103,6 +102,9 @@
                   </div>
                   <div id="pt_nota_de_abajo" class="pt_nota">
                     MODIFIQUE las que corresponda a MENORES porcentajes de cumplimiento (seleccionando el valor correcto de la lista desplegable)
+                  </div>
+                  <div id="pt_boton_volver_tabla_participacion_mensual" class="pt_volver">
+                    <img src="IconoVolver.png"/>
                   </div>
                   <div id="pt_contenedor_tabla_participacion_semanal"
                     class="pt_contenedor_tabla">

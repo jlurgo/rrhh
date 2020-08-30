@@ -32,7 +32,7 @@ class SeccionEstadoCargaParticipacion {
           this.render();
       })
       .onError(function (e) {
-        console.error("error al obtener periodos: " + e);
+        alertify.error("error al obtener periodos: " + e);
       });
   }
 
@@ -70,56 +70,42 @@ class TablaParticipacionMensual extends TablaPT{
         console.log('estados obtenidos:', estados);
         _.forEach(estados, (e) => {
           const fila = $("<tr>")
-          this.agregarCeldaTextoAFila(fila, e.Nombre_Entidad);
-          this.agregarCeldaTextoAFila(fila, e.Activos);
-          this.agregarCeldaTextoAFila(fila, e.Activos_Parcial);
-          this.agregarCeldaTextoAFila(fila, e.Suspendidos);
-          this.agregarCeldaTextoAFila(fila, e.Inactivos);
-          this.agregarCeldaTextoAFila(fila, e.Activos + e.Activos_Parcial + e.Suspendidos + e.Inactivos);
-            
-            var sinCarga = ""
-            if (e.Sin_Carga == 1) {
-                sinCarga = "SI";
-            } else {
-                sinCarga = "NO";
-            }
-            this.agregarCeldaTextoAFila(fila, sinCarga);
+          this.agregarCeldaTextoAFila(fila, e.Nombre_Entidad).addClass("pt_celda_texto");
+          this.agregarCeldaTextoAFila(fila, e.Activos).addClass("pt_celda_numero");
+          this.agregarCeldaTextoAFila(fila, e.Activos_Parcial).addClass("pt_celda_numero");
+          this.agregarCeldaTextoAFila(fila, e.Suspendidos).addClass("pt_celda_numero");
+          this.agregarCeldaTextoAFila(fila, e.Inactivos).addClass("pt_celda_numero");
+          this.agregarCeldaTextoAFila(fila, e.Activos + e.Activos_Parcial + e.Suspendidos + e.Inactivos).addClass("pt_celda_numero");
 
-            const celda = $("<td>")
 
-            var enProceso = ""
-            if (e.En_Proceso == 1) {
-                enProceso = "SI" ;
-            } else {
-                enProceso = "NO";
-            }
-            celda.text(enProceso);
 
-          const icono_lista = $("<img>");
-          icono_lista.attr("src", "IconoLista.png");
-          icono_lista.addClass("pt_icono_celda");
-          icono_lista.click(() => {
-            $("#pt_estado_mensual").hide();
-            this.tablaSemanal.render(e.Id_Entidad, periodo, e.Nombre_Entidad);
-            $("#pt_estado_semanal").show();
-          });
-          celda.append(icono_lista);
-          fila.append(celda);
+          this.agregarCeldaTextoAFila(fila, (e.Sin_Carga==1? "SI": "NO") ).addClass("pt_celda_texto");
 
-            var conInforme=""  
-            if (e.Con_Informe == 1) {
-                conInforme = "SI";
-            } else {
-                conInforme = "NO";
-            }
-            this.agregarCeldaTextoAFila(fila, conInforme);
+
+          var celda = this.agregarCeldaTextoAFila(fila, (e.En_Proceso==1? "SI": "NO") ).addClass("pt_celda_texto");
+
+          if(e.Con_Informe==0){
+            const icono_lista = $("<img>");
+            icono_lista.attr("src", "IconoLista.png");
+            icono_lista.addClass("pt_icono_celda");
+            icono_lista.click(() => {
+              $("#pt_estado_mensual").hide();
+              this.tablaSemanal.render(e.Id_Entidad, periodo, e.Nombre_Entidad);
+              $("#pt_estado_semanal").show();
+            });
+            celda.append(icono_lista);
+          }
+
+
+          this.agregarCeldaTextoAFila(fila, (e.Con_Informe==1? "SI": "NO") ).addClass("pt_celda_texto");
+
 
           fila.addClass("pt_fila_participacion_mensual");
           $("#pt_tabla_participacion_mensual").append(fila);
         });
     })
     .onError(function (e) {
-        console.error("error al obtener asistencias: " + e);
+        alertify.error("error al obtener asistencias: " + e);
     });
   }
 }
@@ -127,12 +113,17 @@ class TablaParticipacionMensual extends TablaPT{
 class TablaParticipacionSemanal extends TablaPT{
   constructor () {
     super();
+
+    $('#pt_boton_volver_tabla_participacion_mensual').click(() => {
+      $("#pt_boton_carga_participacion").click();
+    });
+
     Backend.PT_Get_Participaciones_Dato()
       .onSuccess((datos) => {
           this.nivelesDeParticipacion = datos;
       })
       .onError(function (e) {
-        console.error("error al obtener niveles de participacion: " + e);
+        alertify.error("error al obtener niveles de participacion: " + e);
       });
   }
   render (id_entidad, periodo, Nombre_Entidad) {
@@ -144,6 +135,8 @@ class TablaParticipacionSemanal extends TablaPT{
     // <th>Semana 2</th>
     // <th>Semana 3</th>
     // <th>Semana 4</th>
+    // <th>Promedio</th>
+    // <th>Categoría</th>
     // <th>observaciones a la participación</th>
 
     $("#pt_estado_semanal #pt_grupo_de_trabajo").text(Nombre_Entidad);
@@ -161,7 +154,10 @@ class TablaParticipacionSemanal extends TablaPT{
     if(periodo.Cant_Semanas == 5) {
       fila_titulos.append($("<th>Semana 5</th>"));
     }
-    fila_titulos.append($("<th>observaciones a la participación</th>"));
+
+    fila_titulos.append($("<th>Promedio</th>"));
+    fila_titulos.append($("<th>Categoría</th>"));
+    fila_titulos.append($("<th>Observaciones a la Participación</th>"));
 
     $("#pt_tabla_participacion_semanal").find(".pt_fila_participacion_semanal").remove();
     Backend.PT_Get_Add_Participacion_por_Entidad_Periodo(id_entidad, periodo.Id, periodo.Anio)
@@ -170,8 +166,13 @@ class TablaParticipacionSemanal extends TablaPT{
         var fila = $("<tr>");
 
         this.agregarCeldaTextoAFila(fila, p.Persona.CUIL);
-        this.agregarCeldaTextoAFila(fila, p.Persona.Nombre_Apellido);
-        this.agregarCeldaTextoAFila(fila, p.Persona.Nombre_Estado);
+        this.agregarCeldaTextoAFila(fila, p.Persona.Nombre_Apellido).addClass("pt_celda_texto");
+        this.agregarCeldaTextoAFila(fila, p.Persona.Nombre_Estado).addClass("pt_celda_texto");
+
+
+
+
+
 
         this.renderComboAsistencia(fila, p.Part_Semana1, (nuevo_valor)=>{
           this.updateParticipacionSemanalPersona(p, 1, nuevo_valor);
@@ -190,8 +191,51 @@ class TablaParticipacionSemanal extends TablaPT{
             this.updateParticipacionSemanalPersona(p, 5, nuevo_valor);
           });
         }
+
+
+
+        var counter = {
+          cant: 0,
+          suma:  0.0
+        };
+
+        var parseSemana = (Part_Semana)=>{
+
+          switch (Part_Semana) {
+            case 1: counter.suma+=100.0; counter.cant++; break;
+            case 2: counter.suma+=50.0; counter.cant++; break;
+            case 3: counter.suma+=0.0; counter.cant++; break;
+            case 4: counter.suma+=100.0; counter.cant++; break;
+            case 5: break;
+            default: counter.suma+=100.0; counter.cant++; break;
+          }
+        };
+
+        parseSemana(p.Part_Semana1);
+        parseSemana(p.Part_Semana2);
+        parseSemana(p.Part_Semana3);
+        parseSemana(p.Part_Semana4);
+        if(periodo.Cant_Semanas == 5) {
+          parseSemana(p.Part_Semana5);
+        }
+
+        var promedio = (counter.suma / counter.cant);
+        this.agregarCeldaTextoAFila(fila, promedio +  "%");
+
+
+
+        var texto_categoria = ""
+        if(Math.round(promedio) == 100){
+          texto_categoria = "Total"
+        }else{
+          texto_categoria = "Parcial"
+        }
+
+        this.agregarCeldaTextoAFila(fila, texto_categoria);
+
+
         // celda observaciones, tiene un botón para editar
-        const celda_obs = this.agregarCeldaTextoAFila(fila, p.Observacion);
+        const celda_obs = this.agregarCeldaTextoAFila(fila, p.Observacion).addClass("pt_celda_texto");
         celda_obs.addClass("celda_observacion");
         const icono_lista = $("<img>");
         icono_lista.attr("src", "IconoLista.png");
@@ -214,7 +258,7 @@ class TablaParticipacionSemanal extends TablaPT{
       });
     })
     .onError(function (e) {
-      console.error("error al obtener asistencias: " + e);
+      alertify.error("error al obtener asistencias: " + e);
     });
   }
 
@@ -248,7 +292,7 @@ class TablaParticipacionSemanal extends TablaPT{
           })
         })
         .onError(function (e) {
-          console.error("error cargar motivos de justificacion: " + e);
+          alertify.error("error cargar motivos de justificacion: " + e);
         });
       var cmb_semana_hasta = pt_popup_justificacion.find('#pt_justificacion_cmb_semana_hasta');
       cmb_semana_hasta.empty();
@@ -264,7 +308,7 @@ class TablaParticipacionSemanal extends TablaPT{
           })
         })
         .onError(function (e) {
-          console.error("error al cargar periodos: " + e);
+          alertify.error("error al cargar periodos: " + e);
         });
       var txt_descripcion = pt_popup_justificacion.find('#pt_descripcion_justificacion');
       txt_descripcion.val('');
@@ -297,11 +341,12 @@ class TablaParticipacionSemanal extends TablaPT{
           Backend.PT_Add_Justificacion(asistencia.Persona.Id_Rol, motivo, desde_anio,
             desde_mes, desde_semana, hasta_anio, hasta_mes, hasta_semana, descripcion, id_entidad)
             .onSuccess((datos) => {
+              alertify.success("cambios realizados con éxito");
               this.render(this.idEntidad, this.periodo);
             })
             .onError(function (e) {
+              alertify.error("error al guardar participacion: " + e);
               this.render(this.idEntidad, this.periodo);
-              console.error("error al guardar participacion: " + e);
             });
         }
       });
@@ -325,11 +370,12 @@ class TablaParticipacionSemanal extends TablaPT{
         asistencia.Persona.Id_Rol,
         id_dato)
       .onSuccess((datos) => {
+        alertify.success("cambios realizados con éxito");
         this.render(this.idEntidad, this.periodo);
       })
       .onError(function (e) {
+        alertify.error("error al guardar participacion: " + e);
         this.render(this.idEntidad, this.periodo);
-        console.error("error al guardar participacion: " + e);
       });
   }
 
@@ -341,10 +387,11 @@ class TablaParticipacionSemanal extends TablaPT{
         asistencia.Persona.Id_Rol,
         observacion)
       .onSuccess((datos) => {
+          alertify.success("cambios realizados con éxito");
           this.render(this.idEntidad, this.periodo);
       })
       .onError(function (e) {
-        console.error("error al guardar comentarios: " + e);
+        alertify.error("error al guardar comentarios: " + e);
       });
   }
 }
