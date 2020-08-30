@@ -81,7 +81,7 @@ class TablaInformesParticipacion extends TablaPT{
         });
       })
       .onError(function (e) {
-        console.error("error al obtener estado de informes de participacion: " + e);
+        alertify.error("error al obtener estado de informes de participacion: " + e);
       });
   }
   render () {
@@ -112,7 +112,7 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
           self.render(self.anio, self.mes);
       })
       .onError(function (e) {
-        console.error("error al generar informe de participacion: " + e);
+        alertify.error("error al generar informe de participacion: " + e);
       });
 
     });
@@ -227,7 +227,7 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
 
               })
               .onError(function (e) {
-                console.error("error al obtener niveles de participacion: " + e);
+                alertify.error("error al obtener niveles de participacion: " + e);
               });
 
 
@@ -262,7 +262,7 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
         });
       })
       .onError(function (e) {
-        console.error("error al obtener estado de informes de participacion detalle: " + e);
+        alertify.error("error al obtener estado de informes de participacion detalle: " + e);
       });
 
   }

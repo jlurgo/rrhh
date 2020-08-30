@@ -32,7 +32,7 @@ class SeccionEstadoCargaParticipacion {
           this.render();
       })
       .onError(function (e) {
-        console.error("error al obtener periodos: " + e);
+        alertify.error("error al obtener periodos: " + e);
       });
   }
 
@@ -118,7 +118,7 @@ class TablaParticipacionSemanal extends TablaPT{
           this.nivelesDeParticipacion = datos;
       })
       .onError(function (e) {
-        console.error("error al obtener niveles de participacion: " + e);
+        alertify.error("error al obtener niveles de participacion: " + e);
       });
   }
   render (id_entidad, periodo, Nombre_Entidad) {
@@ -200,7 +200,7 @@ class TablaParticipacionSemanal extends TablaPT{
       });
     })
     .onError(function (e) {
-      console.error("error al obtener asistencias: " + e);
+      alertify.error("error al obtener asistencias: " + e);
     });
   }
 
@@ -234,7 +234,7 @@ class TablaParticipacionSemanal extends TablaPT{
           })
         })
         .onError(function (e) {
-          console.error("error cargar motivos de justificacion: " + e);
+          alertify.error("error cargar motivos de justificacion: " + e);
         });
       var cmb_semana_hasta = pt_popup_justificacion.find('#pt_justificacion_cmb_semana_hasta');
       cmb_semana_hasta.empty();
@@ -250,7 +250,7 @@ class TablaParticipacionSemanal extends TablaPT{
           })
         })
         .onError(function (e) {
-          console.error("error al cargar periodos: " + e);
+          alertify.error("error al cargar periodos: " + e);
         });
       var txt_descripcion = pt_popup_justificacion.find('#pt_descripcion_justificacion');
       txt_descripcion.val('');
@@ -286,8 +286,8 @@ class TablaParticipacionSemanal extends TablaPT{
               this.render(this.idEntidad, this.periodo);
             })
             .onError(function (e) {
+              alertify.error("error al guardar participacion: " + e);
               this.render(this.idEntidad, this.periodo);
-              console.error("error al guardar participacion: " + e);
             });
         }
       });
@@ -314,8 +314,8 @@ class TablaParticipacionSemanal extends TablaPT{
         this.render(this.idEntidad, this.periodo);
       })
       .onError(function (e) {
+        alertify.error("error al guardar participacion: " + e);
         this.render(this.idEntidad, this.periodo);
-        console.error("error al guardar participacion: " + e);
       });
   }
 
@@ -330,7 +330,7 @@ class TablaParticipacionSemanal extends TablaPT{
           this.render(this.idEntidad, this.periodo);
       })
       .onError(function (e) {
-        console.error("error al guardar comentarios: " + e);
+        alertify.error("error al guardar comentarios: " + e);
       });
   }
 }
