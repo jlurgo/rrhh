@@ -4,7 +4,7 @@
 #pt_pagina {
   flex: 1 1 auto;
   display: flex;
-  padding-left: 100px;
+  padding-left: 50px;
   background-color: #e6e6e6;
 }
 #pt_barra_izquierda {

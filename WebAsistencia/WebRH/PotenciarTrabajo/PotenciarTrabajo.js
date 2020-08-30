@@ -136,6 +136,7 @@ class TablaParticipacionSemanal extends TablaPT{
     // <th>Semana 3</th>
     // <th>Semana 4</th>
     // <th>Promedio</th>
+    // <th>Categoría</th>
     // <th>observaciones a la participación</th>
 
     $("#pt_estado_semanal #pt_grupo_de_trabajo").text(Nombre_Entidad);
@@ -155,6 +156,7 @@ class TablaParticipacionSemanal extends TablaPT{
     }
 
     fila_titulos.append($("<th>Promedio</th>"));
+    fila_titulos.append($("<th>Categoría</th>"));
     fila_titulos.append($("<th>Observaciones a la Participación</th>"));
 
     $("#pt_tabla_participacion_semanal").find(".pt_fila_participacion_semanal").remove();
@@ -219,6 +221,18 @@ class TablaParticipacionSemanal extends TablaPT{
 
         var promedio = (counter.suma / counter.cant);
         this.agregarCeldaTextoAFila(fila, promedio +  "%");
+
+
+
+        var texto_categoria = ""
+        if(Math.round(promedio) == 100){
+          texto_categoria = "Total"
+        }else{
+          texto_categoria = "Parcial"
+        }
+
+        this.agregarCeldaTextoAFila(fila, texto_categoria);
+
 
         // celda observaciones, tiene un botón para editar
         const celda_obs = this.agregarCeldaTextoAFila(fila, p.Observacion).addClass("pt_celda_texto");
