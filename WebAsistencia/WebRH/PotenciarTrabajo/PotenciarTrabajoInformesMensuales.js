@@ -62,22 +62,22 @@ class TablaInformesParticipacion extends TablaPT{
           fila.append(celda);
 
 
-          var ent_sin_carga = this.agregarCeldaTextoAFila(fila, i.Ent_SinCarga);
+          var ent_sin_carga = this.agregarCeldaTextoAFila(fila, i.Ent_SinCarga).addClass("pt_celda_numero");
           if(i.Ent_SinCarga > 0){
             ent_sin_carga.addClass("ent_sin_carga");
           }
 
-          var ent_en_proceso = this.agregarCeldaTextoAFila(fila, i.Ent_EnProceso);
+          var ent_en_proceso = this.agregarCeldaTextoAFila(fila, i.Ent_EnProceso).addClass("pt_celda_numero");
           if(i.Ent_EnProceso > 0){
             ent_en_proceso.addClass("ent_en_proceso");
           }
 
 
 
-          this.agregarCeldaTextoAFila(fila, i.Ent_ConInforme);
-          this.agregarCeldaTextoAFila(fila, i.Partic_SinCarga);
-          this.agregarCeldaTextoAFila(fila, i.Partic_EnProceso);
-          this.agregarCeldaTextoAFila(fila, i.Partic_ConInforme);
+          this.agregarCeldaTextoAFila(fila, i.Ent_ConInforme).addClass("pt_celda_numero");
+          this.agregarCeldaTextoAFila(fila, i.Partic_SinCarga).addClass("pt_celda_numero");
+          this.agregarCeldaTextoAFila(fila, i.Partic_EnProceso).addClass("pt_celda_numero");
+          this.agregarCeldaTextoAFila(fila, i.Partic_ConInforme).addClass("pt_celda_numero");
 
           fila.addClass("pt_fila_informes_mensuales");
           $("#pt_tabla_informes_mensuales").append(fila);
@@ -105,7 +105,7 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
 
 
       if(self.lista_generar_informe.length == 0){
-        alert("Debe elegir al menos un elemento")
+        alertify.alert("Advertencia", "Debe elegir al menos un elemento")
         return
       }
 
@@ -145,12 +145,12 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
 
 
           // Grupo de Trabajo
-          var celda_nombre_entidad = this.agregarCeldaTextoAFila(fila, e_informes.Entidad.Nombre_Entidad);
+          var celda_nombre_entidad = this.agregarCeldaTextoAFila(fila, e_informes.Entidad.Nombre_Entidad).addClass("pt_celda_texto");
 
 
 
           // Personas
-          var celda_cant_personas = this.agregarCeldaTextoAFila(fila, e_informes.Cant_Personas);
+          var celda_cant_personas = this.agregarCeldaTextoAFila(fila, e_informes.Cant_Personas).addClass("pt_celda_texto");
           // var icono_lupa = $("<img>");
           // icono_lupa.attr("src", "../Imagenes/detalle.png");
           // icono_lupa.addClass("pt_icono_celda");

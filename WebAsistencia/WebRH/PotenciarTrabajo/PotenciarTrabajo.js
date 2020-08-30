@@ -70,19 +70,19 @@ class TablaParticipacionMensual extends TablaPT{
         console.log('estados obtenidos:', estados);
         _.forEach(estados, (e) => {
           const fila = $("<tr>")
-          this.agregarCeldaTextoAFila(fila, e.Nombre_Entidad);
-          this.agregarCeldaTextoAFila(fila, e.Activos);
-          this.agregarCeldaTextoAFila(fila, e.Activos_Parcial);
-          this.agregarCeldaTextoAFila(fila, e.Suspendidos);
-          this.agregarCeldaTextoAFila(fila, e.Inactivos);
-          this.agregarCeldaTextoAFila(fila, e.Activos + e.Activos_Parcial + e.Suspendidos + e.Inactivos);
+          this.agregarCeldaTextoAFila(fila, e.Nombre_Entidad).addClass("pt_celda_texto");
+          this.agregarCeldaTextoAFila(fila, e.Activos).addClass("pt_celda_numero");
+          this.agregarCeldaTextoAFila(fila, e.Activos_Parcial).addClass("pt_celda_numero");
+          this.agregarCeldaTextoAFila(fila, e.Suspendidos).addClass("pt_celda_numero");
+          this.agregarCeldaTextoAFila(fila, e.Inactivos).addClass("pt_celda_numero");
+          this.agregarCeldaTextoAFila(fila, e.Activos + e.Activos_Parcial + e.Suspendidos + e.Inactivos).addClass("pt_celda_numero");
 
 
 
-          this.agregarCeldaTextoAFila(fila, (e.Sin_Carga==1? "SI": "NO")  );
+          this.agregarCeldaTextoAFila(fila, (e.Sin_Carga==1? "SI": "NO") ).addClass("pt_celda_texto");
 
 
-          var celda = this.agregarCeldaTextoAFila(fila, (e.En_Proceso==1? "SI": "NO")  );
+          var celda = this.agregarCeldaTextoAFila(fila, (e.En_Proceso==1? "SI": "NO") ).addClass("pt_celda_texto");
 
           if(e.Con_Informe==0){
             const icono_lista = $("<img>");
@@ -97,7 +97,7 @@ class TablaParticipacionMensual extends TablaPT{
           }
 
 
-          this.agregarCeldaTextoAFila(fila, (e.Con_Informe==1? "SI": "NO")  );
+          this.agregarCeldaTextoAFila(fila, (e.Con_Informe==1? "SI": "NO") ).addClass("pt_celda_texto");
 
 
           fila.addClass("pt_fila_participacion_mensual");
@@ -164,8 +164,13 @@ class TablaParticipacionSemanal extends TablaPT{
         var fila = $("<tr>");
 
         this.agregarCeldaTextoAFila(fila, p.Persona.CUIL);
-        this.agregarCeldaTextoAFila(fila, p.Persona.Nombre_Apellido);
-        this.agregarCeldaTextoAFila(fila, p.Persona.Nombre_Estado);
+        this.agregarCeldaTextoAFila(fila, p.Persona.Nombre_Apellido).addClass("pt_celda_texto");
+        this.agregarCeldaTextoAFila(fila, p.Persona.Nombre_Estado).addClass("pt_celda_texto");
+
+
+
+
+
 
         this.renderComboAsistencia(fila, p.Part_Semana1, (nuevo_valor)=>{
           this.updateParticipacionSemanalPersona(p, 1, nuevo_valor);
@@ -216,7 +221,7 @@ class TablaParticipacionSemanal extends TablaPT{
         this.agregarCeldaTextoAFila(fila, promedio +  "%");
 
         // celda observaciones, tiene un botón para editar
-        const celda_obs = this.agregarCeldaTextoAFila(fila, p.Observacion);
+        const celda_obs = this.agregarCeldaTextoAFila(fila, p.Observacion).addClass("pt_celda_texto");
         celda_obs.addClass("celda_observacion");
         const icono_lista = $("<img>");
         icono_lista.attr("src", "IconoLista.png");
