@@ -76,50 +76,36 @@ class TablaParticipacionMensual extends TablaPT{
           this.agregarCeldaTextoAFila(fila, e.Suspendidos);
           this.agregarCeldaTextoAFila(fila, e.Inactivos);
           this.agregarCeldaTextoAFila(fila, e.Activos + e.Activos_Parcial + e.Suspendidos + e.Inactivos);
-            
-            var sinCarga = ""
-            if (e.Sin_Carga == 1) {
-                sinCarga = "SI";
-            } else {
-                sinCarga = "NO";
-            }
-            this.agregarCeldaTextoAFila(fila, sinCarga);
 
-            const celda = $("<td>")
 
-            var enProceso = ""
-            if (e.En_Proceso == 1) {
-                enProceso = "SI" ;
-            } else {
-                enProceso = "NO";
-            }
-            celda.text(enProceso);
 
-          const icono_lista = $("<img>");
-          icono_lista.attr("src", "IconoLista.png");
-          icono_lista.addClass("pt_icono_celda");
-          icono_lista.click(() => {
-            $("#pt_estado_mensual").hide();
-            this.tablaSemanal.render(e.Id_Entidad, periodo, e.Nombre_Entidad);
-            $("#pt_estado_semanal").show();
-          });
-          celda.append(icono_lista);
-          fila.append(celda);
+          this.agregarCeldaTextoAFila(fila, (e.Sin_Carga==1? "SI": "NO")  );
 
-            var conInforme=""  
-            if (e.Con_Informe == 1) {
-                conInforme = "SI";
-            } else {
-                conInforme = "NO";
-            }
-            this.agregarCeldaTextoAFila(fila, conInforme);
+
+          var celda = this.agregarCeldaTextoAFila(fila, (e.En_Proceso==1? "SI": "NO")  );
+
+          if(e.Con_Informe==0){
+            const icono_lista = $("<img>");
+            icono_lista.attr("src", "IconoLista.png");
+            icono_lista.addClass("pt_icono_celda");
+            icono_lista.click(() => {
+              $("#pt_estado_mensual").hide();
+              this.tablaSemanal.render(e.Id_Entidad, periodo, e.Nombre_Entidad);
+              $("#pt_estado_semanal").show();
+            });
+            celda.append(icono_lista);
+          }
+
+
+          this.agregarCeldaTextoAFila(fila, (e.Con_Informe==1? "SI": "NO")  );
+
 
           fila.addClass("pt_fila_participacion_mensual");
           $("#pt_tabla_participacion_mensual").append(fila);
         });
     })
     .onError(function (e) {
-        console.error("error al obtener asistencias: " + e);
+        alertify.error("error al obtener asistencias: " + e);
     });
   }
 }
