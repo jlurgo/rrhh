@@ -88,9 +88,8 @@
 .pt_icono_celda{
   cursor: pointer;
   height: 22px;
-  position: absolute;
-  right: 5px;
-  top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 

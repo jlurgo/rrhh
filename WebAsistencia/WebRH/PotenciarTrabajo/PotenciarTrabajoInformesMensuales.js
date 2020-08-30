@@ -47,7 +47,10 @@ class TablaInformesParticipacion extends TablaPT{
           celda.text(i.Entidad.Mes);
 
           const icono_lupa = $("<img>");
-          icono_lupa.attr("src", "IconoLupa.png");
+          icono_lupa.attr("src", "../Imagenes/detalle.png");
+
+
+
           icono_lupa.addClass("pt_icono_celda");
           icono_lupa.click(() => {
 
@@ -149,7 +152,7 @@ class TablaInformesParticipacionDetalleMensual extends TablaPT{
           // Personas
           var celda_cant_personas = this.agregarCeldaTextoAFila(fila, e_informes.Cant_Personas);
           // var icono_lupa = $("<img>");
-          // icono_lupa.attr("src", "IconoLupa.png");
+          // icono_lupa.attr("src", "../Imagenes/detalle.png");
           // icono_lupa.addClass("pt_icono_celda");
           // icono_lupa.click(() => {
           //   // TODO:
