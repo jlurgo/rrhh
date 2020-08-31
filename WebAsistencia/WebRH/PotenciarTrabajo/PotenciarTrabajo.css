@@ -171,7 +171,13 @@
 .pt_tabla tr:nth-child(odd) {
   background-color: #e9ecf5
 }
-.pt_fila_titulo_tabla {
+.pt_fila_titulo_tabla{
+  border-bottom: 2px solid white;
+  background-color: #4473c5 !important;
+  color: white;
+  text-align: center;
+}
+.pt_fila_subtitulo_tabla {
   border-bottom: 4px solid white;
   background-color: #4473c5 !important;
   color: white;
