@@ -230,12 +230,12 @@
 
 
 .vex.vex-theme-os .vex-content {
-  background: #ffe699;
-  width: 600px;
+  background: #ffe699 !important;
+  width: 600px !important;
 }
 .vex-dialog-message{
-  text-align: center;
-  font-weight: bold;
+  text-align: center !important;
+  font-weight: bold !important;
 }
 
 

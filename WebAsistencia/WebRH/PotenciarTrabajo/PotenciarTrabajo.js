@@ -129,15 +129,6 @@ class TablaParticipacionSemanal extends TablaPT{
   render (id_entidad, periodo, Nombre_Entidad) {
     this.idEntidad = id_entidad;
     this.periodo = periodo;
-    // <th>CUIL</th>
-    // <th>Apellido y Nombre</th>
-    // <th>Semana 1</th>
-    // <th>Semana 2</th>
-    // <th>Semana 3</th>
-    // <th>Semana 4</th>
-    // <th>Promedio</th>
-    // <th>Categoría</th>
-    // <th>observaciones a la participación</th>
 
     $("#pt_estado_semanal #pt_grupo_de_trabajo").text(Nombre_Entidad);
     $("#pt_estado_semanal #pt_periodo").text(periodo.Mes + " " + periodo.Anio);
