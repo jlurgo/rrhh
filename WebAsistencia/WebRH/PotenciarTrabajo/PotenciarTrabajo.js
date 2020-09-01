@@ -79,7 +79,7 @@ class TablaParticipacionMensual extends TablaPT{
 
 
 
-          this.agregarCeldaTextoAFila(fila, (e.Sin_Carga==1? "SI": "NO") ).addClass("pt_celda_texto");
+          //this.agregarCeldaTextoAFila(fila, (e.Sin_Carga==1? "SI": "NO") ).addClass("pt_celda_texto");
 
 
           var celda = this.agregarCeldaTextoAFila(fila, (e.En_Proceso==1? "SI": "NO") ).addClass("pt_celda_texto");
