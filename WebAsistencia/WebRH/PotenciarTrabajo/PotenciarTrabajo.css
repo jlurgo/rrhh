@@ -177,10 +177,16 @@
   color: white;
   text-align: center !important;
 }
+.pt_fila_titulo_tabla th {
+  text-align: center !important;
+}
 .pt_fila_subtitulo_tabla {
   border-bottom: 4px solid white;
   background-color: #4473c5 !important;
   color: white;
+  text-align: center !important;
+}
+.pt_fila_subtitulo_tabla th {
   text-align: center !important;
 }
 .pt_tabla td {
