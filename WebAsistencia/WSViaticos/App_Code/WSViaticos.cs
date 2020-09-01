@@ -7763,7 +7763,7 @@ public class WSViaticos : System.Web.Services.WebService
                         BorderWidthBottom = 0.75f,
                         BackgroundColor = new BaseColor(174, 214, 241)
                     };
-                    PdfPCell Celda_Dato_Observacion = new PdfPCell(new Phrase(ITEM_DATO.Participacion.Observacion, _FontStandarGrilla))
+                    PdfPCell Celda_Dato_Observacion = new PdfPCell(new Phrase(ITEM_DATO.Entidad.Observacion, _FontStandarGrilla))
                     {
                         BorderWidth = 0,
                         BorderWidthBottom = 0.75f,
